@@ -10,5 +10,8 @@ export default defineConfig({
     watch: {
       usePolling: true,
     },
+     allowedHosts: [
+      "hug-glucose-geologist.ngrok-free.dev"
+    ]
   },
 })
