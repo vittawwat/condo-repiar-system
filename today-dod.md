@@ -177,13 +177,14 @@ LIFF Login → Register → Create Ticket → Admin Dashboard
 
 # ✅ Sprint 1 Done เมื่อ
 
-* login LINE ได้จริง
-* register ได้จริง
-* create ticket ได้จริง
-* dashboard เห็นข้อมูลจริง
-* database relation ถูกต้อง
-* frontend/backend/database เชื่อมครบ
+* login LINE ได้จริง 
+* register ได้จริง 
+* create ticket ได้จริง 
+
+* dashboard
+    // ออกแบบหน้าการใช้งาน ผ่าน figma
+    // สามารถดึงข้อมูลการแจ้งซ่อมและดูรายระเอียดได้จริง
+    
 * validation ทำงาน
 * error handling ทำงาน
-* docker ใช้งานได้
 * พร้อมต่อ Sprint 2

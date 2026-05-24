@@ -10,8 +10,14 @@ export default defineConfig({
     watch: {
       usePolling: true,
     },
-     allowedHosts: [
-      "hug-glucose-geologist.ngrok-free.dev"
-    ]
+    allowedHosts: [
+      "hug-glucose-geologist.ngrok-free.dev",
+    ],
+    proxy: {
+      "/api": {
+        target: "http://backend:3000",
+        changeOrigin: true
+      }
+    }
   },
 })

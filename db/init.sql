@@ -36,3 +36,14 @@ CREATE TABLE IF NOT EXISTS tickets (
   FOREIGN KEY (technician_id)REFERENCES technicians(technician_id)
 
 );
+
+CREATE TABLE ticket_images (
+    image_id INT AUTO_INCREMENT PRIMARY KEY,
+    ticket_id INT NOT NULL,
+    image_type ENUM('before','after') NOT NULL,
+    image_url VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (ticket_id) REFERENCES tickets(ticket_id)
+    ON DELETE CASCADE
+);

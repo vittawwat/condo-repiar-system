@@ -1,21 +1,28 @@
-import { useEffect, useState } from 'react'
-import liff from "@line/liff";
-import axios from "axios";
+// import { useEffect, useState } from 'react'
+// import liff from "@line/liff";
+// import axios from "axios";
 // import reactLogo from './assets/react.svg'
 // import viteLogo from './assets/vite.svg'
 // import heroImg from './assets/hero.png'
 // import './App.css'
 // import { LIFF_ID } from './config/liff';
 
+import { Routes, Route } from "react-router-dom";
+import Login from "./pages-user/Login";
+import Register from "./pages-user/Register";
+import CreateTicket from "./pages-user/CreateTicket";
 
-function App(){
-return (
-    <div>
+function App() {
+  return (
+    <Routes>
 
-      <h1>wittawat</h1>
-      <p>test</p>
-      
-    </div>
+      <Route path="/" element={<Login />} />
+
+      <Route path="/register" element={<Register />} />
+
+      <Route path="/home" element={<CreateTicket />} />
+
+    </Routes>
   );
 }
 
