@@ -1,10 +1,10 @@
 const express = require("express")
 const router = express.Router()
 
-const { registerResidents,getRegistrationStatus,getMe } = require("../controllers/residentController")
+const { registerResident,getRegistrationStatus,getMe } = require("../controllers/residentController")
 const { residentMiddleware } = require("../middleware/residentMiddleware");
 
-router.post("/register",registerResidents)
+router.post("/register",registerResident)
 
 // ฟังก์ชันนี้จุดประสงค์คือการ "ดึงข้อมูล/ตรวจสอบสถานะ"
 router.get("/registration-status",getRegistrationStatus)

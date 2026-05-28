@@ -1,6 +1,6 @@
 const pool = require("../config/db")
 
-exports.registerResidents = async (line_id,fullname,room_number,phone) => {
+exports.registerResident = async (line_id,fullname,room_number,phone) => {
     
     const row = await pool.query(
         "INSERT INTO residents (line_id, fullname, room_number, phone) VALUE (?, ?, ?, ?)",

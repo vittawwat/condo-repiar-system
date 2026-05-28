@@ -1,7 +1,7 @@
 const userModel = require("../models/residentModel");
 const jwt = require("jsonwebtoken");
 
-async function registerResidents(req, res) {
+async function registerResident(req, res) {
   try {
     const { line_id, fullname, room_number, phone } = req.body
 
@@ -11,7 +11,7 @@ async function registerResidents(req, res) {
         message: "Please fill in all the information."
       })
     }
-    const result = await userModel.registerResidents(line_id, fullname, room_number, phone);
+    const result = await userModel.registerResident(line_id, fullname, room_number, phone);
 
     res.status(201).json({
       success: true,
@@ -104,4 +104,4 @@ async function getMe(req, res) {
 
 };
 
-module.exports = { registerResidents, getRegistrationStatus, getMe }
+module.exports = { registerResident, getRegistrationStatus, getMe }
