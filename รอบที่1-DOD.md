@@ -15,13 +15,12 @@ LIFF Login → Register → Create Ticket → Admin Dashboard
 # ⚙️ Setup & Architecture
 
 * [x] setup React + Vite
-* [ ] setup React Router
 * [x] setup Express API
 * [x] setup Docker Compose
 * [x] setup MySQL
 * [x] setup project structure
 * [x] frontend/backend run พร้อมกันได้
-* [ ] ngrok ใช้งานได้
+* [x] ngrok ใช้งานได้
 
 ---
 
@@ -53,34 +52,35 @@ LIFF Login → Register → Create Ticket → Admin Dashboard
 
 ## LIFF Login
 
-* [ ] login LINE ได้
-* [ ] ดึง LINE profile ได้
-* [ ] ดึง LINE userId ได้
-* [ ] redirect register ได้
+* [x] login LINE ได้
+* [x] ดึง LINE profile ได้
+* [x] ดึง LINE userId ได้
+* [x] redirect register ได้
 * [ ] handle LIFF error ได้
 
 ---
 
 ## Register User
 
-* [ ] กรอกชื่อได้
-* [ ] กรอกเบอร์โทรได้
-* [ ] กรอกเลขห้องได้
+* [x] กรอกชื่อได้
+* [x] กรอกเบอร์โทรได้
+* [x] กรอกเลขห้องได้
 * [x] validate required field
 * [x] save user ลง DB
 * [x] LINE userId unique
-* [ ] register สำเร็จ redirect ได้
+* [x] register สำเร็จ redirect ได้
 
 ---
 
 ## Create Ticket
 
-* [ ] กรอกหัวข้อแจ้งซ่อมได้
-* [ ] กรอกรายละเอียดได้
-* [ ] เลือก category ได้
-* [ ] validate input ได้
-* [ ] save ticket ลง DB
-* [ ] ticket เชื่อม resident ถูกต้อง
+* [x] กรอกหัวข้อแจ้งซ่อมได้
+* [x] กรอกรายละเอียดได้
+* [x] เลือก category ได้
+* [x] เพิ่มรูปภาพได้
+* [x] validate input ได้
+* [x] save ticket ลง DB
+* [x] ticket เชื่อม resident ถูกต้อง
 * [ ] success message แสดงถูกต้อง
 
 ---
@@ -126,9 +126,9 @@ LIFF Login → Register → Create Ticket → Admin Dashboard
 
 # 🧪 Testing
 
-* [ ] test login flow
+* [ป] test login flow
 * [x] test register flow
-* [ ] test create ticket flow
+* [ป] test create ticket flow
 * [ ] test dashboard flow
 * [x] test invalid input
 * [ ] test database relation
@@ -179,12 +179,13 @@ LIFF Login → Register → Create Ticket → Admin Dashboard
 
 * login LINE ได้จริง 
 * register ได้จริง 
-* create ticket ได้จริง 
+* create ticket ได้จริง และสามารถเพิ่มรูปภาพได้
 
 * dashboard
-    // ออกแบบหน้าการใช้งาน ผ่าน figma
-    // สามารถดึงข้อมูลการแจ้งซ่อมและดูรายระเอียดได้จริง
-    
-* validation ทำงาน
+    // ออกแบบหน้าการใช้งาน ผ่าน figma ครอบคลุมแค่โชว์ การแจ้งซ่อม และ ดูรายระเอียด
+    // สามารถดึงข้อมูลการแจ้งซ่อมและดูรายระเอียดได้
+* doc apidocment ERdiagram  
+* ตั้งชื่อ endpoint ทวนเรื่อง restful api 
+* validation ทำงาน automate test ลองไปใช้ Jest เอาไว้ unit test&& supertest เอาไว้เทส api && playwright เอาไว้ทำ ui test \\ อีกชื่อนึง e2e
 * error handling ทำงาน
 * พร้อมต่อ Sprint 2

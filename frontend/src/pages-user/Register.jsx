@@ -16,9 +16,12 @@ export default function RegisterPage() {
     const [phone, setPhone] = useState("");
 
     useEffect(() => {
+        // console.log("PROFILE:", profile);
+        // console.log("TOKEN:", token);
 
-        console.log("PROFILE:", profile);
-        console.log("TOKEN:", token);
+        if (!token) {
+            navigate("/");
+        }
 
     }, []);
 
@@ -31,7 +34,7 @@ export default function RegisterPage() {
         console.log(phone);
         try {
 
-            const response = await axios.post("/api/register",
+            const response = await axios.post("/api/residents/register",
                 {
                     line_id: profile.userId,
                     fullname,
@@ -64,13 +67,13 @@ export default function RegisterPage() {
                 onSubmit={handleSubmit} style={styles.form}
             >
 
-                <input type="text" placeholder= "ชื่อ-นามสกุล" value={fullname} onChange={(e) => {
+                <input type="text" placeholder="ชื่อ-นามสกุล" value={fullname} onChange={(e) => {
                     console.log("value:", e.target.value);
                     setFullname(e.target.value)
                 }} />
-                <input type="text" placeholder= "หมายเลขห้อง" value={room_number} onChange={(e) =>
+                <input type="text" placeholder="หมายเลขห้อง" value={room_number} onChange={(e) =>
                     setRoomNumber(e.target.value)} />
-                <input type="text" placeholder= "เบอร์โทรศัพท์" value={phone} onChange={(e) =>
+                <input type="text" placeholder="เบอร์โทรศัพท์" value={phone} onChange={(e) =>
                     setPhone(e.target.value)} />
 
                 <button type="submit"> Register </button>

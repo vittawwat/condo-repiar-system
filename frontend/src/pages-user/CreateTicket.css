@@ -1,0 +1,175 @@
+body {
+  margin: 0;
+  background: #f5f7fb;
+  font-family: sans-serif;
+}
+
+.ticket-page {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.ticket-card {
+  max-width: 500px;
+  margin: auto;
+
+  background: white;
+  border-radius: 18px;
+
+  padding: 20px;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.ticket-title {
+  margin: 0;
+  font-size: 24px;
+}
+
+.ticket-subtitle {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #666;
+}
+
+.ticket-form {
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+
+  padding: 12px;
+  border-radius: 12px;
+
+  border: 1px solid #ddd;
+
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.ticket-image-section {
+  margin-top: 18px;
+}
+
+.ticket-image-label {
+  display: block;
+  margin-bottom: 10px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.upload-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.upload-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 14px;
+
+  border-radius: 12px;
+  border: 1px solid #ddd;
+
+  background: #fafafa;
+
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.upload-btn input {
+  display: none;
+}
+
+.preview-grid {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.preview-item {
+  position: relative;
+}
+
+.preview-image {
+  width: 90px;
+  height: 90px;
+
+  object-fit: cover;
+
+  border-radius: 12px;
+  border: 1px solid #ddd;
+}
+
+.remove-btn {
+  position: absolute;
+
+  top: -6px;
+  right: -6px;
+
+  width: 22px;
+  height: 22px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #ff4d4f;
+  color: white;
+
+  cursor: pointer;
+}
+
+.image-count {
+  margin-top: 10px;
+
+  font-size: 12px;
+  color: #666;
+}
+
+.submit-btn {
+  width: 100%;
+
+  margin-top: 20px;
+  padding: 14px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: #06c755;
+  color: white;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  opacity: 0.95;
+}

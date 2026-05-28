@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-exports.userMiddleware = (req, res, next) => {
+exports.residentMiddleware = (req, res, next) => {
 
     try {
 
@@ -17,11 +17,11 @@ exports.userMiddleware = (req, res, next) => {
         }
 
         const token = authHeader.split(" ")[1];
-        console.log("TOKEN:", token);
+        // console.log("TOKEN:", token);
 
         // แปลงข้อมูลจาก token 
         const decoded = jwt.decode(token);
-        console.log("DECODED:", decoded);
+        // console.log("DECODED:", decoded);
         
         // นำข้อมูลเก็บใน req เพื่อนำไปใช้งานต่อ
         req.user = decoded;

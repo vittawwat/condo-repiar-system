@@ -34,16 +34,16 @@ export default function Login() {
                 const line_id = profile.userId;
 
                 console.log("PROFILE:", profile);
-
-                const response = await axios.post(
-                    "/api/check-user",
-                    {
-                        line_id: line_id,
+                console.log("line_id", line_id);
+                
+                const response = await axios.get(`/api/residents/registration-status`,{
+                    params:{
+                        line_id: line_id, // ส่งไปในรูปแบบ Query Parameter (?line_id=xxx)
                     }
-                );
+                });
 
                 console.log("CHECK USER:", response.data);
-                
+                console.log("LOGIN PAGE");
                 // user ใหม่
                 if (response.data.newUser) {
 
@@ -55,17 +55,17 @@ export default function Login() {
                     });
 
                 }
-
+                
                 // user เก่า
                 else {
-
+                    console.log("GO DASHBOARD");
                     navigate("/home");
 
                 }
 
             } catch (error) {
 
-                console.log("LIFF ERROR:", error);
+                console.log("LIFF ERROR:", error.message);
 
             }
 

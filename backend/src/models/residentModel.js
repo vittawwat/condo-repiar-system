@@ -1,6 +1,6 @@
 const pool = require("../config/db")
 
-exports.registerUser = async (line_id,fullname,room_number,phone) => {
+exports.registerResidents = async (line_id,fullname,room_number,phone) => {
     
     const row = await pool.query(
         "INSERT INTO residents (line_id, fullname, room_number, phone) VALUE (?, ?, ?, ?)",
@@ -27,12 +27,4 @@ exports.checkUserById = async(user_id) => {
     )
 
     return row[0] || null
-}
-exports.createTicket = async(user_id, title, detail, category) => {
-    const row = await pool.query(
-        "INSERT INTO tickets(user_id, title, detail, category) VALUE(?, ?, ?, ?)",
-        [user_id, title, detail, category] 
-    )
-
-    return row
 }

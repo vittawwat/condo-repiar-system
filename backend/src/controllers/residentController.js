@@ -1,7 +1,7 @@
-const userModel = require("../models/userModel");
+const userModel = require("../models/residentModel");
 const jwt = require("jsonwebtoken");
 
-async function registerUser(req, res) {
+async function registerResidents(req, res) {
   try {
     const { line_id, fullname, room_number, phone } = req.body
 
@@ -11,7 +11,7 @@ async function registerUser(req, res) {
         message: "Please fill in all the information."
       })
     }
-    const result = await userModel.registerUser(line_id, fullname, room_number, phone);
+    const result = await userModel.registerResidents(line_id, fullname, room_number, phone);
 
     res.status(201).json({
       success: true,
@@ -35,9 +35,10 @@ async function registerUser(req, res) {
   }
 };
 
-async function checkUser(req, res) {
+async function getRegistrationStatus(req, res) {
   try {
-    const { line_id } = req.body
+    // const { line_id } = req.body
+    const line_id = req.query.line_id // การรับข้อมูล Query Parameter (?line_id=xxx)
 
     if (!line_id) {
       return res.status(400).json("ข้อมูลไม่ถูกต้อง")
@@ -45,16 +46,16 @@ async function checkUser(req, res) {
 
     const result = await userModel.findUserByLineId(line_id)
 
-    // res.json(result)
     if (!result) {
       return res.status(200).json({
         newUser: true,
-        message: "ยังไม่ได้ ลงทะเบียน",
+        message: "ยังไม่ได้ลงทะเบียน",
       })
     } else {
       return res.status(200).json({
         newUser: false,
-        message: "ลงทะเบียนแล้ว"
+        message: "ลงทะเบียนแล้ว",
+        resident: result
       })
     }
 
@@ -70,16 +71,25 @@ async function getMe(req, res) {
   try {
     const line_id = req.user.sub
 
+    console.log("getMe_userFromToken", req.user);
+
     const result = await userModel.findUserByLineId(line_id)
 
     console.log("controller", result);
 
     res.status(200).json({
-      success: "complete",
-      TokenUser: req.headers.authorization,
-      user_id: result.user_id,
-      result: result,
-      
+      success: true,
+      isRegistered: true,
+
+      // TokenUser: req.headers.authorization,
+      line_id_From_Token: req.user.sub,
+
+      resident_info: {
+        user_id: result.user_id,
+        name: result.fullname,
+        room_number: result.room_number,
+        phone: result.phone
+      }
     });
 
   } catch (error) {
@@ -93,29 +103,5 @@ async function getMe(req, res) {
   }
 
 };
-async function createTicket(req, res) {
-  try{
-    const {user_id, title, detail, category} = req.body
 
-    const user = await userModel.checkUserById(user_id)
-
-    if(!user) {
-      return res.status(404).json({
-        message: "ไม่พบข้อมูลผู้ใช้งาน",
-        user: user
-      });
-    }
-
-    const result = await userModel.createTicket(user_id, title, detail, category)
-
-    res.status(201).json({
-      message:"success",
-      user: user 
-    })
-  } catch(error) {
-    res.status(500).json({
-      message: "server Error",
-      Error: error.message})
-  }
-}
-module.exports = { registerUser, checkUser, getMe, createTicket }
+module.exports = { registerResidents, getRegistrationStatus, getMe }
