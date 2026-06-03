@@ -1,31 +1,33 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import "./CreateTicket.css";
 
 export default function CreateTicket() {
-  const [user, setUser] = useState('');
+  // const [user, setUser] = useState('');
   const [title, setTitle] = useState('');
   const [detail, setDetail] = useState('');
   const [category, setCategory] = useState('');
   const [images, setImages] = useState([])
-  const [previews, setPreviews] = useState([]) 
+  const [previews, setPreviews] = useState([])
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) return;
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const token = localStorage.getItem("token");
+  //     if (!token) return;
 
-      await axios.get("/api/me", {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-        .then((res) => setUser(res.data.result))
-        .catch(() => {
-          localStorage.removeItem('token');
-          console.log("กรุณา login");
-        })
-    }
-    fetchData();
-  }, [])
+  //     await axios.get("/api/residents/me", {
+  //       headers: { 
+  //         Authorization: `Bearer ${token}` 
+  //       }
+  //     })
+  //       .then((res) => setUser(res.data.result))
+  //       .catch(() => {
+  //         localStorage.removeItem('token');
+  //         console.log("กรุณา login");
+  //       })
+  //   }
+  //   fetchData();
+  // }, [])
 
   const handleImages = (e) => {
 
@@ -33,14 +35,14 @@ export default function CreateTicket() {
     const newPreviews = newFiles.map(file => URL.createObjectURL(file))
 
     // console.log(e);
-    // console.log(e.target);
-    // console.log(e.target.files);
+    console.log(e.target);
+    console.log(e.target.files);
     // console.log(newFiles);
-    
+
     // console.log("newFiles", newFiles);
     // console.log("newPreviews", newPreviews);
 
-    setImages(prev => [...prev, ...newFiles])  
+    setImages(prev => [...prev, ...newFiles])
     setPreviews(prev => [...prev, ...newPreviews])
 
   }
@@ -54,6 +56,13 @@ export default function CreateTicket() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("กรุณา login");
+      return;
+    }
+
     if (!title || !detail || !category) {
       alert("กรุณากรอกข้อมูลให้ครบ")
       return
@@ -66,27 +75,42 @@ export default function CreateTicket() {
 
     try {
       // Step 1 - สร้าง ticket
-      const response = await axios.post("/api/create-ticket", {
-        user_id: user.user_id,
-        title,
-        detail,
-        category
-      })
+      const response = await axios.post("api/tickets",
+        {
+          title,
+          detail,
+          category
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       console.log("Create-ticket success", response.data)
 
-      const ticket_id = response.data.Ticket_id
-      console.log("ticket_id:", ticket_id)
+      const ticket_id = response.data.ticket_id
+      console.log("ticket_id in forntend:", ticket_id)
 
       // Step 2 - อัพรูป
       const formData = new FormData()
       formData.append("image_type", "before")
-
+      formData.append("uploaded_by", "resident")
+      console.log("formData", formData);
+      
       for (const image of images) {
         formData.append("images", image)
       }
 
-      await axios.post(`/api/tickets/${ticket_id}/images`, formData)
+      await axios.post(`/api/tickets/${ticket_id}/images`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       alert("แจ้งซ่อมสำเร็จ")
 

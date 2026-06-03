@@ -41,6 +41,7 @@ CREATE TABLE ticket_images (
     image_id INT AUTO_INCREMENT PRIMARY KEY,
     ticket_id INT NOT NULL,
     image_type ENUM('before','after') NOT NULL,
+    uploaded_by ENUM('resident','admin') NOT NULL,
     image_url VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 

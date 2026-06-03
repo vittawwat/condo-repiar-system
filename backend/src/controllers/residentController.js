@@ -69,35 +69,26 @@ async function getRegistrationStatus(req, res) {
 
 async function getMe(req, res) {
   try {
-    const line_id = req.user.sub
 
-    console.log("getMe_userFromToken", req.user);
-
-    const result = await userModel.findUserByLineId(line_id)
-
-    console.log("controller", result);
+    // res.json(req.user)
+    // const line_id = req.user.sub
+    // console.log("getMe_userFromToken", req.user);
+    // const result = await userModel.findUserByLineId(line_id)
+    // console.log("controller", result);
 
     res.status(200).json({
       success: true,
       isRegistered: true,
-
-      // TokenUser: req.headers.authorization,
-      line_id_From_Token: req.user.sub,
-
       resident_info: {
-        user_id: result.user_id,
-        name: result.fullname,
-        room_number: result.room_number,
-        phone: result.phone
+        user: req.user
       }
     });
 
   } catch (error) {
-
-    console.log(error);
-
+    
     res.status(500).json({
-      message: "Server error"
+      message: "Server error",
+      error: error.message
     });
 
   }

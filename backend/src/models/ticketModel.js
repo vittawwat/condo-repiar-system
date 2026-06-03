@@ -16,3 +16,36 @@ exports.createTicket = async(user_id, title, detail, category) => {
 
     return row
 }
+
+exports.getListTickets = async () => {
+    const [row] = await pool.query(
+        `
+        SELECT t.ticket_id, t.category, t.title, t.created_at, t.status,
+        r.room_number 
+        FROM tickets as t
+        join residents as r 
+        ON t.user_id = r.user_id
+        `
+    )
+    return row
+}
+
+exports.getTicketById = async (ticket_id) =>{
+    const [row] = await pool.query(
+        `
+        SELECT t.ticket_id, t.title, t.detail, t.category, t.status, t.created_at,
+        r.fullname, r.room_number,
+        ti.image_id, ti.image_type, ti.image_url, ti.uploaded_by
+        FROM tickets t
+        JOIN residents r
+
+        ON t.user_id = r.user_id
+
+        LEFT JOIN ticket_images ti
+        ON t.ticket_id = ti.ticket_id
+
+        WHERE t.ticket_id = ?;
+        `,[ticket_id]
+    )
+    return row
+}

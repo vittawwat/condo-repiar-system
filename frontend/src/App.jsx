@@ -12,6 +12,8 @@ import Login from "./pages-user/Login";
 import Register from "./pages-user/Register";
 import CreateTicket from "./pages-user/CreateTicket";
 
+import Dashboard from "./pages-admin/Dashboard";
+
 function App() {
   return (
     <Routes>
@@ -21,6 +23,8 @@ function App() {
       <Route path="/register" element={<Register />} />
 
       <Route path="/home" element={<CreateTicket />} />
+
+      <Route path="dashboard" element={<Dashboard />} />
 
     </Routes>
   );

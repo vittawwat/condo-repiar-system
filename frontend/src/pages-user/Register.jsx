@@ -63,9 +63,7 @@ export default function RegisterPage() {
 
             <h1>Register</h1>
 
-            <form
-                onSubmit={handleSubmit} style={styles.form}
-            >
+            <form onSubmit={handleSubmit} style={styles.form} >
 
                 <input type="text" placeholder="ชื่อ-นามสกุล" value={fullname} onChange={(e) => {
                     console.log("value:", e.target.value);

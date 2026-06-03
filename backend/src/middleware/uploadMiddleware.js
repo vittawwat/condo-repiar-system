@@ -20,9 +20,4 @@ const upload = multer({
 
 const uploadImages = upload.array("images", 3)
 
-const debugRaw = (req, res, next) => {
-  console.log("files:", req.files)
-  next()
-}
-
-module.exports = { uploadImages, debugRaw }
+module.exports = { uploadImages }
