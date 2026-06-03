@@ -28,23 +28,30 @@ export default function Login() {
                 }
 
                 const profile = await liff.getProfile();
-                const token = await liff.getIDToken();
-                localStorage.setItem("token", token);
+                const line_token = await liff.getIDToken();
+                localStorage.setItem("line_token", line_token);
 
                 const line_id = profile.userId;
 
                 console.log("PROFILE:", profile);
                 console.log("line_id", line_id);
-                
-                
 
-                const response = await axios.get(`/api/residents/registration-status`,{
-                    params:{
+
+                const response = await axios.get(`/api/residents/registration-status`, {
+                    params: {
                         line_id: line_id, // ส่งไปในรูปแบบ Query Parameter (?line_id=xxx)
                     }
                 });
 
                 console.log("CHECK USER:", response.data);
+                const token = response.data.token
+                localStorage.setItem("token", token)
+                // if (token) {
+                //     localStorage.setItem("token", token)
+                // }
+
+                console.log("token", token);
+
                 console.log("LOGIN PAGE");
                 // user ใหม่
                 if (response.data.newUser) {
@@ -57,11 +64,11 @@ export default function Login() {
                     });
 
                 }
-                
+
                 // user เก่า
                 else {
                     console.log("GO DASHBOARD");
-                    navigate("/home");
+                    navigate("/create-ticket");
 
                 }
 

@@ -9,17 +9,20 @@ export default function RegisterPage() {
 
     // รับ profile จาก Login ส่งมาเป็นข้อมูล state
     const profile = location.state?.profile;
-    const token = localStorage.getItem("token");
-
+    const line_token = localStorage.getItem("line_token");
+    
     const [fullname, setFullname] = useState("");
     const [room_number, setRoomNumber] = useState("");
     const [phone, setPhone] = useState("");
 
     useEffect(() => {
-        // console.log("PROFILE:", profile);
-        // console.log("TOKEN:", token);
+        console.log("Register PAGE");
+        
+        // console.log("line_PROFILE:", profile);
+        // console.log("line_token:", line_token);
+        // console.log(typeof localStorage.getItem("line_token"))
 
-        if (!token) {
+        if (!line_token) {
             navigate("/");
         }
 
@@ -47,7 +50,7 @@ export default function RegisterPage() {
 
             alert("Register Success");
 
-            navigate("/home");
+            navigate("/");
 
         } catch (error) {
 
