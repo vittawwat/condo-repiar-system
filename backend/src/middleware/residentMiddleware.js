@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { findUserByLineId } = require("../models/residentModel");
+const userModel = require("../models/residentModel");
 
 const residentMiddleware = async (req, res, next) => {
 
@@ -21,16 +21,12 @@ const residentMiddleware = async (req, res, next) => {
         // console.log("TOKEN:", token);
 
         // แปลงข้อมูลจาก token 
-        const decoded = jwt.decode(token);
-        console.log("DECODED:", decoded);
+        const res = jwt.verify(token, process.env.JWT_SECRET);
+        console.log("DECODED:", res);
 
-        // เช็คว่ามาจาก Line จริงๆ
-        // if (decoded.iss !== "https://access.line.me") {
-        //     return res.status(401).json({ message: "Invalid token" })
-        // }
 
-        const user = await findUserByLineId(decoded.sub)
-        console.log("checkUserLineId middle", user);
+        const user = await userModel.checkUserById(res.user_id)
+        console.log("checkUser_Id middle", user);
 
         if (!user) {
             return res.status(401).json({ message: "ไม่พบผู้ใช้งาน" })

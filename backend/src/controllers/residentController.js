@@ -51,11 +51,22 @@ async function getRegistrationStatus(req, res) {
         newUser: true,
         message: "ยังไม่ได้ลงทะเบียน",
       })
-    } else {
+    }
+    if (result) {
+      const token = jwt.sign(
+        {
+          user_id: result.user_id
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "1d"
+        }
+      )
       return res.status(200).json({
         newUser: false,
         message: "ลงทะเบียนแล้ว",
-        resident: result
+        resident: result,
+        token: token
       })
     }
 
@@ -85,7 +96,7 @@ async function getMe(req, res) {
     });
 
   } catch (error) {
-    
+
     res.status(500).json({
       message: "Server error",
       error: error.message
