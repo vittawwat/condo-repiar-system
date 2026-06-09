@@ -21,7 +21,6 @@ app.use("/api/residents", residentsRoute);
 app.use("/api/tickets", ticketRoute);
 
 
-
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

@@ -43,8 +43,9 @@ export default function Login() {
                     }
                 });
 
-                console.log("CHECK USER:", response.data);
-                const token = response.data.token
+                const data = response.data
+                console.log("CHECK USER:", data);
+                const token = data.token
                 localStorage.setItem("token", token)
                 // if (token) {
                 //     localStorage.setItem("token", token)
@@ -54,7 +55,7 @@ export default function Login() {
 
                 console.log("LOGIN PAGE");
                 // user ใหม่
-                if (response.data.newUser) {
+                if (!data.isRegistered) {
 
                     navigate("/register", {
                         // ส่งค่า state ไปที่หน้า register

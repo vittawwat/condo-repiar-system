@@ -34,7 +34,7 @@ exports.getTicketById = async (ticket_id) =>{
     const [row] = await pool.query(
         `
         SELECT t.ticket_id, t.title, t.detail, t.category, t.status, t.created_at,
-        r.fullname, r.room_number,
+        r.line_id, r.fullname, r.room_number,
         ti.image_id, ti.image_type, ti.image_url, ti.uploaded_by
         FROM tickets t
         JOIN residents r
@@ -46,6 +46,35 @@ exports.getTicketById = async (ticket_id) =>{
 
         WHERE t.ticket_id = ?;
         `,[ticket_id]
+    )
+    return row
+}
+
+exports.getTicketByStatus = async (status) =>{
+    const [row] = await pool.query(
+        // "SELECT * FROM tickets WHERE status = ?"
+        `
+        SELECT t.*, r.room_number
+        FROM tickets as t
+        JOIN residents as r
+
+        ON t.user_id = r.user_id
+
+        WHERE t.status = ?
+        `,[status]
+    )
+    return row
+}
+
+exports.updateStatusTicket = async (ticket_id, status) => {
+    const [row] = await pool.query(
+       `
+       UPDATE tickets 
+       SET 
+       status = ? 
+       WHERE ticket_id = ? 
+       ` ,
+       [status, ticket_id]
     )
     return row
 }

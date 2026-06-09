@@ -48,14 +48,15 @@ async function getRegistrationStatus(req, res) {
 
     if (!result) {
       return res.status(200).json({
-        newUser: true,
-        message: "ยังไม่ได้ลงทะเบียน",
+        isRegistered: false,
+        message: "Unregistered user",
       })
     }
     if (result) {
       const token = jwt.sign(
         {
-          user_id: result.user_id
+          user_id: result.user_id,
+          line_id: result.line_id
         },
         process.env.JWT_SECRET,
         {
@@ -63,8 +64,8 @@ async function getRegistrationStatus(req, res) {
         }
       )
       return res.status(200).json({
-        newUser: false,
-        message: "ลงทะเบียนแล้ว",
+        isRegistered: true,
+        message: "User already registered",
         resident: result,
         token: token
       })
@@ -90,6 +91,7 @@ async function getMe(req, res) {
     res.status(200).json({
       success: true,
       isRegistered: true,
+      message: "User data retrieved successfully",
       resident_info: {
         user: req.user
       }

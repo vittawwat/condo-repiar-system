@@ -105,7 +105,8 @@ GET /api/residents/registration-status?line_id=U1234567890abcdef
     "fullname": "สมชาย ใจดี",
     "room_number": "101",
     "phone": "0812345678"
-  }
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9....."
 }
 
 // 400 Bad Request
@@ -137,7 +138,8 @@ Authorization: Bearer <token>
       "line_id": "U1234567890abcdef",
       "fullname": "สมชาย ใจดี",
       "room_number": "101",
-      "phone": "0812345678"
+      "phone": "0812345678",
+      "created_at": "2026-06-08T13:35:31.000Z"
     }
   }
 }
@@ -160,27 +162,4 @@ Authorization: Bearer <token>
 
 ---
 
-## การทดสอบด้วย Postman
-
-เพิ่ม dev-login route สำหรับรับ token ทดสอบ (เฉพาะ development เท่านั้น)
-
-### POST `/dev-login`
-
-```json
-// Request
-{
-  "user_id": 1
-}
-
-// Response
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-}
-```
-
-นำ token ไปใส่ใน Postman
-
-```
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-```
 

@@ -4,6 +4,7 @@ import "./Dashboard.css";
 import TicketModalDetail from "../components/TicketModalDetail";
 export default function Dashboard() {
   const [tickets, setTickets] = useState([]);
+  const [alltickets, setAllTicket] = useState([])
   const [ticket_ById, setTicke_ById] = useState(null)
   const [showModal, setShowModal] = useState(false)
 
@@ -13,9 +14,10 @@ export default function Dashboard() {
         const response = await axios.get(
           "/api/tickets"
         );
-        console.log("setTickets",response.data.allTicket);
-        
-        setTickets(response.data.allTicket);
+        console.log("setTickets", response.data.tickets);
+
+        setTickets(response.data.tickets);
+        setAllTicket(response.data.tickets);
 
       } catch (error) {
         console.error("โหลดข้อมูลไม่สำเร็จ:", error);
@@ -43,25 +45,59 @@ export default function Dashboard() {
     }
   }
 
-  function checkCategory(category) {
-    if (category === "plumbing") {
-      return "ปะปา"
-    } else if (category === "electric") {
-      return "ไฟฟ้า"
-    } else if (category === "aircon") {
-      return "แอร์"
-    } else if (category === "other") {
-      return "อื่นๆ"
-    } else {
-      return "ไม่พบหมวดหมู่แจ้งซ่อม"
-    }
-  }
-  function checkStatus(status) {
-    if (status === "pending") {
-      return ` กำลังรอการรับเรื่อง  `
-    }
+  // const countPending = tickets.filter(ticket => ticket.status === "pending").length
+  // console.log("countPending", countPending);
+
+  const countByStatus = (status) => {
+    return alltickets.filter(ticket => ticket.status === status).length
   }
 
+  const countPending = countByStatus("pending")
+  const countAcknowledged = countByStatus("acknowledged")
+  const countInProgress = countByStatus("in_progress")
+  const countCompleted = countByStatus("completed")
+
+
+  function checkCategory(category) {
+    const map = {
+      plumbing: "ประปา",
+      electric: "ไฟฟ้า",
+      aircon: "แอร์",
+      other: "อื่นๆ"
+    }
+
+    return map[category]
+  }
+  function checkStatus(status) {
+    const map = {
+      pending: "กำลังรอการรับเรื่่อง",
+      acknowledged: "รับเรื่องแล้ว",
+      in_progress: "กำลังดำเนินการ",
+      completed: "เสร็จสิ้น",
+      cancelled: "ยกเลิก"
+    }
+    return map[status]
+  }
+
+  const fetchTickets = async (status) => {
+    try {
+
+      const response = await axios.get(
+        "/api/tickets", {
+        params: {
+          status: status
+        }
+      }
+      )
+
+      console.log("filter", response.data)
+
+      setTickets(response.data.tickets)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className="dashboard-layout">
 
@@ -116,21 +152,41 @@ export default function Dashboard() {
         {/* cards */}
         <div className="stats-grid">
           <div className="stat-card">รอการดำเนินการ
-            
-        </div>
-          <div className="stat-card"></div>
-          <div className="stat-card"></div>
-          <div className="stat-card"></div>
+            <h1>{countPending}</h1>
+          </div>
+          <div className="stat-card">รับเรื่อง
+            <h1>{countAcknowledged}</h1>
+          </div>
+          <div className="stat-card">กำลังดำเนินการ
+            <h1>{countInProgress}</h1>
+          </div>
+          <div className="stat-card">เสร็จสิ้น
+            <h1>{countCompleted}</h1>
+          </div>
         </div>
 
         {/* filter */}
         <div className="filter-bar">
-          <button>ทั้งหมด</button>
-          <button>Pending</button>
-          <button>Acknowledged</button>
-          <button>In Progress</button>
-          <button>Completed</button>
-          <button>Cancelled</button>
+          <button onClick={() => fetchTickets()}>
+            ทั้งหมด
+          </button>
+
+          <button onClick={() => fetchTickets("pending")}>
+            Pending
+          </button>
+
+          <button onClick={() => fetchTickets("acknowledged")}>
+            Acknowledged
+          </button>
+          <button onClick={() => fetchTickets("in_progress")}>
+            In Progress
+          </button>
+          <button onClick={() => fetchTickets("completed")}>
+            Completed
+          </button>
+          <button onClick={() => fetchTickets("cancelled")}>
+            Cancelled
+          </button>
         </div>
 
         {/* table */}

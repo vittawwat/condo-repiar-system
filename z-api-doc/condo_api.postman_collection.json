@@ -1,0 +1,112 @@
+{
+  "info": {
+    "_postman_id": "821b8671-4f9a-4c53-9695-b8d4a675fec1",
+    "name": "condo_api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "46949401",
+    "_collection_link": "https://go.postman.co/collection/46949401-821b8671-4f9a-4c53-9695-b8d4a675fec1?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"line_id\": \"U88888\",\r\n  \"fullname\": \"สมศรี มานะ\",\r\n  \"room_number\": \"102\",\r\n  \"phone\": \"08109841341\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://hug-glucose-geologist.ngrok-free.dev/api/residents/register",
+          "protocol": "https",
+          "host": [
+            "hug-glucose-geologist",
+            "ngrok-free",
+            "dev"
+          ],
+          "path": [
+            "api",
+            "residents",
+            "register"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "201 create - \"Create user success\"",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"line_id\": \"U88888\",\r\n  \"fullname\": \"สมศรี มานะ\",\r\n  \"room_number\": \"102\",\r\n  \"phone\": \"08109841341\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://hug-glucose-geologist.ngrok-free.dev/api/residents/register",
+              "protocol": "https",
+              "host": [
+                "hug-glucose-geologist",
+                "ngrok-free",
+                "dev"
+              ],
+              "path": [
+                "api",
+                "residents",
+                "register"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Length",
+              "value": "48"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 08 Jun 2026 15:18:25 GMT"
+            },
+            {
+              "key": "Etag",
+              "value": "W/\"30-Uf9H+KvU6vydrrucLKSf3GpO3jo\""
+            },
+            {
+              "key": "Ngrok-Agent-Ips",
+              "value": "58.10.5.83"
+            },
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"message\": \"Create user success\"\n}"
+        }
+      ]
+    }
+  ]
+}

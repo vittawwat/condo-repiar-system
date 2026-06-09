@@ -87,9 +87,9 @@ LIFF Login → Register → Create Ticket → Admin Dashboard
 
 # 🖥 Admin Dashboard
 
-* [ ] dashboard ticket list ทำงาน
-* [ ] ดึงข้อมูลจาก API จริง
-* [ ] view ticket detail ได้
+* [x] dashboard ticket list ทำงาน
+* [x] ดึงข้อมูลจาก API จริง
+* [x] view ticket detail ได้
 * [ ] empty state ทำงาน
 * [ ] API error แล้ว UI ไม่พัง
 
@@ -101,7 +101,7 @@ LIFF Login → Register → Create Ticket → Admin Dashboard
 * [ ] CRUD ทำงานจริง
 * [x] status code ถูกต้อง
 * [ ] API response format ถูกต้อง
-* [ ] test API ผ่าน Postman
+* [x] test API ผ่าน Postman
 
 ---
 
@@ -126,10 +126,10 @@ LIFF Login → Register → Create Ticket → Admin Dashboard
 
 # 🧪 Testing
 
-* [ป] test login flow
+* [x] test login flow
 * [x] test register flow
-* [ป] test create ticket flow
-* [ ] test dashboard flow
+* [x] test create ticket flow
+* [x] test dashboard flow
 * [x] test invalid input
 * [ ] test database relation
 * [ ] test frontend/backend integration
@@ -177,15 +177,20 @@ LIFF Login → Register → Create Ticket → Admin Dashboard
 
 # ✅ Sprint 1 Done เมื่อ
 
-* login LINE ได้จริง 
-* register ได้จริง 
-* create ticket ได้จริง และสามารถเพิ่มรูปภาพได้
+* login LINE ได้จริง  ✅
+* register ได้จริง ✅
+* create ticket ได้จริง และสามารถเพิ่มรูปภาพได้ ✅
 
-* dashboard
-    // ออกแบบหน้าการใช้งาน ผ่าน figma ครอบคลุมแค่โชว์ การแจ้งซ่อม และ ดูรายระเอียด
-    // สามารถดึงข้อมูลการแจ้งซ่อมและดูรายระเอียดได้
-* doc apidocment ERdiagram  
-* ตั้งชื่อ endpoint ทวนเรื่อง restful api 
-* validation ทำงาน automate test ลองไปใช้ Jest เอาไว้ unit test&& supertest เอาไว้เทส api && playwright เอาไว้ทำ ui test \\ อีกชื่อนึง e2e
+* dashboard ✅
+    - ออกแบบหน้าการใช้งาน ผ่าน figma ครอบคลุมแค่โชว์ การแจ้งซ่อม และ ดูรายระเอียด
+    - สามารถดึงข้อมูลการแจ้งซ่อมและดูรายระเอียดได้
+
+* doc apidocment 
+* ERdiagram Database  ✅ 
+* ตั้งชื่อ endpoint ทวนเรื่อง restful api ✅
+* validation 
+    - ทำงาน automate test ลองไปใช้ Jest เอาไว้ unit test
+    - && supertest เอาไว้เทส api 
+    - && playwright เอาไว้ทำ ui test \\ อีกชื่อนึง e2e
 * error handling ทำงาน
 * พร้อมต่อ Sprint 2
