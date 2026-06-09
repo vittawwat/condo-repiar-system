@@ -1,13 +1,23 @@
 const express = require("express")
 const router = express.Router()
 
-const { registerResident,getRegistrationStatus,getMe } = require("../controllers/residentController")
+const { registerResident,
+        getRegistrationStatus,
+        getMe,
+        loginResidents } = require("../controllers/residentController")
 const { residentMiddleware } = require("../middleware/residentMiddleware");
-  
+const { lineMiddleware } = require("../middleware/lineMiddleware")
+
+// gen-token_line สำหรับเทส postman 
+// const { generateToken } = require("../../generateToken")
+// router.post("/generateToken-test",generateToken)
+
+router.post("/login",lineMiddleware,loginResidents)
+
 router.post("/register",registerResident)
 
 // ฟังก์ชันนี้จุดประสงค์คือการ "ดึงข้อมูล/ตรวจสอบสถานะ"
-router.get("/registration-status",getRegistrationStatus)
+router.get("/registration-status",lineMiddleware,getRegistrationStatus)
 
 router.get("/me",residentMiddleware,getMe)
 

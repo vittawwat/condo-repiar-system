@@ -13,10 +13,10 @@
 ## สัปดาห์ที่ 1 — Backend + Acknowledged
 
 ### 1. API เปลี่ยนสถานะ Acknowledged
-- [ ] `PATCH /api/tickets/:id/status` รับ body `{ status: "acknowledged" }`
-- [ ] validate ว่า ticket ต้องเป็น `pending` ก่อนถึงเปลี่ยนได้
-- [ ] ส่ง LINE Push Message หาลูกบ้าน "นิติรับเรื่องแล้ว กำลังประสานงานช่าง"
-- [ ] เขียน Jest + Supertest ครอบ endpoint นี้
+- [x] `PATCH /api/tickets/:id/status` รับ body `{ status: "acknowledged" }`
+- [x] validate ว่า ticket ต้องเป็น `pending` ก่อนถึงเปลี่ยนได้
+- [x] ส่ง LINE Push Message หาลูกบ้าน "นิติรับเรื่องแล้ว กำลังประสานงานช่าง"
+- [] เขียน Jest + Supertest ครอบ endpoint นี้
 
 ### 2. CRUD ทะเบียนช่าง
 - [ ] `GET /api/technicians` ดึงรายการช่างทั้งหมด

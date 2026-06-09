@@ -35,10 +35,54 @@ async function registerResident(req, res) {
   }
 };
 
+async function loginResidents(req, res) {
+
+  console.log("req user", req.user);
+
+  try {
+    const line_id = req.user.sub;
+    console.log("line_id login", line_id);
+
+    const result = await userModel.findUserByLineId(line_id)
+    console.log("result", result);
+
+
+    if (!result) {
+      return res.status(400).json({
+        success: false,
+        message: "User unrigister"
+      })
+    }
+
+    const token = jwt.sign(
+      {
+        user_id: result.user_id,
+        line_id: result.line_id
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d"
+      }
+    )
+
+    res.status(201).json({
+      success: true,
+      message: "Login success",
+      access_token: token,
+      // user: result
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+      error: error.message
+    })
+  }
+}
 async function getRegistrationStatus(req, res) {
   try {
-    // const { line_id } = req.body
-    const line_id = req.query.line_id // การรับข้อมูล Query Parameter (?line_id=xxx)
+
+    const line_id  = req.user.sub
+    // const line_id = req.query.line_id // การรับข้อมูล Query Parameter (?line_id=xxx)
 
     if (!line_id) {
       return res.status(400).json("ข้อมูลไม่ถูกต้อง")
@@ -48,28 +92,19 @@ async function getRegistrationStatus(req, res) {
 
     if (!result) {
       return res.status(200).json({
+        success: true,
         isRegistered: false,
         message: "Unregistered user",
       })
     }
-    if (result) {
-      const token = jwt.sign(
-        {
-          user_id: result.user_id,
-          line_id: result.line_id
-        },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: "1d"
-        }
-      )
-      return res.status(200).json({
-        isRegistered: true,
-        message: "User already registered",
-        resident: result,
-        token: token
-      })
-    }
+
+    return res.status(200).json({
+      success: true,
+      isRegistered: true,
+      message: "User already registered",
+      resident: result,
+    })
+
 
   } catch (error) {
     return res.status(500).json({
@@ -90,7 +125,6 @@ async function getMe(req, res) {
 
     res.status(200).json({
       success: true,
-      isRegistered: true,
       message: "User data retrieved successfully",
       resident_info: {
         user: req.user
@@ -108,4 +142,4 @@ async function getMe(req, res) {
 
 };
 
-module.exports = { registerResident, getRegistrationStatus, getMe }
+module.exports = { registerResident, getRegistrationStatus, getMe, loginResidents }

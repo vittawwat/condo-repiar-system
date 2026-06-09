@@ -16,10 +16,15 @@ console.log("dir",__dirname)
 
 const residentsRoute = require("./routes/residentsRoute");
 const ticketRoute = require("./routes/ticketRoute")
+const devRoute = require("./routes/devRoute")
 
 app.use("/api/residents", residentsRoute);
 app.use("/api/tickets", ticketRoute);
 
+//====================================//
+// สำหรับ genarete lineToken ไว้ test Login in postman //
+app.use("/api/dev", devRoute)
+//==================================//
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

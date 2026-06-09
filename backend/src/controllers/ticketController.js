@@ -8,6 +8,18 @@ async function createTicket(req, res) {
     const user_id = req.user.user_id
     const { title, detail, category } = req.body
 
+    if(!user_id){
+      return res.status(400).json({
+        message: "User not found."
+      })
+    }
+    
+    if(!title || !detail || !category) {
+      return res.status(400).json({
+        message: "Please fill in all the information.",
+      })
+    }
+
     const result = await ticketModel.createTicket(user_id, title, detail, category);
 
     res.status(201).json({
