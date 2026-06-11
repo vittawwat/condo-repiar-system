@@ -50,7 +50,7 @@ async function loginResidents(req, res) {
     if (!result) {
       return res.status(400).json({
         success: false,
-        message: "User unrigister"
+        message: "User unregistered"
       })
     }
 
@@ -65,7 +65,7 @@ async function loginResidents(req, res) {
       }
     )
 
-    res.status(201).json({
+    res.status(200).json({
       success: true,
       message: "Login success",
       access_token: token,

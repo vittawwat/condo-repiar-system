@@ -26,6 +26,8 @@ app.use("/api/tickets", ticketRoute);
 app.use("/api/dev", devRoute)
 //==================================//
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+
+module.exports = app
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });

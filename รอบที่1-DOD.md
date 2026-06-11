@@ -41,10 +41,10 @@ LIFF Login → Register → Create Ticket → Admin Dashboard
 * [x] create residents table
 * [x] create tickets table
 * [x] create technicians table
-* [ ] setup primary key
-* [ ] setup foreign key
-* [ ] relation resident → ticket ถูกต้อง
-* [ ] database schema ไม่ซ้ำซ้อน
+* [x] setup primary key
+* [x] setup foreign key
+* [x] relation resident → ticket ถูกต้อง
+* [x] database schema ไม่ซ้ำซ้อน
 
 ---
 
@@ -56,7 +56,7 @@ LIFF Login → Register → Create Ticket → Admin Dashboard
 * [x] ดึง LINE profile ได้
 * [x] ดึง LINE userId ได้
 * [x] redirect register ได้
-* [ ] handle LIFF error ได้
+* [x] handle LIFF error ได้
 
 ---
 
@@ -81,7 +81,7 @@ LIFF Login → Register → Create Ticket → Admin Dashboard
 * [x] validate input ได้
 * [x] save ticket ลง DB
 * [x] ticket เชื่อม resident ถูกต้อง
-* [ ] success message แสดงถูกต้อง
+* [x] success message แสดงถูกต้อง
 
 ---
 
@@ -90,7 +90,7 @@ LIFF Login → Register → Create Ticket → Admin Dashboard
 * [x] dashboard ticket list ทำงาน
 * [x] ดึงข้อมูลจาก API จริง
 * [x] view ticket detail ได้
-* [ ] empty state ทำงาน
+* [x] empty state ทำงาน
 * [ ] API error แล้ว UI ไม่พัง
 
 ---
@@ -110,7 +110,7 @@ LIFF Login → Register → Create Ticket → Admin Dashboard
 * [x] backend มี try/catch
 * [x] handle database error
 * [x] handle duplicate user
-* [ ] frontend loading state
+* [x] frontend loading state
 * [ ] frontend error state
 
 ---
@@ -139,7 +139,7 @@ LIFF Login → Register → Create Ticket → Admin Dashboard
 # 📄 Documentation
 
 * [ ] README วิธีรันระบบ
-* [ ] ER Diagram
+* [x] ER Diagram
 * [ ] API Flow Diagram
 * [ ] project structure document
 

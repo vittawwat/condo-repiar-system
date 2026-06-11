@@ -213,7 +213,7 @@ export default function Dashboard() {
 
                 return (
                   <tr key={ticket.ticket_id}>
-                    <td>{ticket.ticket_id}</td>
+                    <td>#{ticket.ticket_id}</td>
                     <td>{ticket.room_number}</td>
                     <td>{checkCategory(ticket.category)}</td>
                     <td>{ticket.title}</td>

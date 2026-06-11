@@ -35,11 +35,10 @@ export default function Login() {
                 console.log("PROFILE:", profile); 
                 // console.log("line_id", line_id);
 
-
-                const response = await axios.get(`/api/residents/registration-status`, {
-                    // params: {
+                // params: {
                     //     line_id: line_id, // ส่งไปในรูปแบบ Query Parameter (?line_id=xxx)
                     // }
+                const response = await axios.get(`/api/residents/registration-status`, {
                     headers: {
                         Authorization: `Bearer ${line_token}`,
                     },
