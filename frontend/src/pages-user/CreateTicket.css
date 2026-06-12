@@ -6,11 +6,13 @@ body {
 
 .ticket-page {
   min-height: 100vh;
-  padding: 20px;
+  padding: 16px;
 }
 
 .ticket-card {
-  max-width: 500px;
+  width: 100%;
+  max-width: 700px;
+
   margin: auto;
 
   background: white;
@@ -42,9 +44,7 @@ body {
 
 .form-group label {
   display: block;
-
   margin-bottom: 6px;
-
   font-size: 14px;
   font-weight: 600;
 }
@@ -53,10 +53,9 @@ body {
 .form-group textarea,
 .form-group select {
   width: 100%;
-
   padding: 12px;
-  border-radius: 12px;
 
+  border-radius: 12px;
   border: 1px solid #ddd;
 
   font-size: 14px;
@@ -106,9 +105,8 @@ body {
 }
 
 .preview-grid {
-  display: flex;
-  flex-wrap: wrap;
-
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
   gap: 10px;
   margin-top: 12px;
 }
@@ -118,8 +116,8 @@ body {
 }
 
 .preview-image {
-  width: 90px;
-  height: 90px;
+  width: 100%;
+  aspect-ratio: 1/1;
 
   object-fit: cover;
 
@@ -172,4 +170,28 @@ body {
 
 .submit-btn:hover {
   opacity: 0.95;
+}
+
+/* Tablet */
+
+@media (min-width: 768px) {
+  .ticket-page {
+    padding: 32px;
+  }
+
+  .ticket-card {
+    padding: 32px;
+  }
+
+  .ticket-title {
+    font-size: 28px;
+  }
+}
+
+/* Desktop */
+
+@media (min-width: 1200px) {
+  .ticket-card {
+    max-width: 900px;
+  }
 }

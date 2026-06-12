@@ -1,7 +1,7 @@
 const ticketModel = require("../models/ticketModel")
 const userModel = require("../models/residentModel");
 
-const { pushMessage } = require("../services/lineservice")
+const { pushMessage } = require("../services/line_push_message")
 
 async function createTicket(req, res) {
   try {

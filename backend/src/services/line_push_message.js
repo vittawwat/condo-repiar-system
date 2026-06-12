@@ -2,7 +2,7 @@
 const axios = require("axios")
 
 const LINE_API = "https://api.line.me/v2/bot/message/push"
-const TOKEN = process.env.Channel_access_token_v2
+const CHANNEL_TOKEN = process.env.Channel_access_token_v2
 
 const pushMessage = async (line_id, message) => {
   try {
@@ -17,7 +17,7 @@ const pushMessage = async (line_id, message) => {
     }, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${TOKEN}`
+        Authorization: `Bearer ${CHANNEL_TOKEN}`
       }
     })
     // console.log("channel_access", TOKEN);
