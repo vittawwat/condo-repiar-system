@@ -7,65 +7,50 @@ const cleanupFiles = (files) => {
   if (files) files.forEach(f => fs.unlinkSync(f.path))
 }
 
-async function uploadTicketImages(req, res) {
+// shared function
+const handleImageUpload = async (req, res, image_type, uploaded_by) => {
+  const files = req.files
   try {
     const { ticket_id } = req.params
-    // const { image_type, uploaded_by } = req.body
-    const files = req.files
-    const user_id = req.user.user_id
-
-    console.log("params:", req.params);
-    console.log("type:", typeof ticket_id);
-    console.log("files:", req.files);
 
     const ticket = await ticketModel.checkTicketById(ticket_id)
-
     if (!ticket) {
-      // ถ้า multer เซฟไปแล้วค่อยลบ
       cleanupFiles(files)
-      return res.status(400).json({
-        message: "ไม่พบข้อมูลแจ้งซ่อม"
-      });
+      return res.status(404).json({ message: "ไม่พบข้อมูลแจ้งซ่อม" })
     }
 
-     if (!files || files.length < 2) {
+    if (!files || files.length < 2) {
       cleanupFiles(files)
-      return res.status(400).json({ 
-        message: "ต้องอัปโหลดอย่างน้อย 2 รูป" 
-      })
-    }
-
-    if (ticket.user_id !== user_id) {
-      cleanupFiles(files)
-      return res.status(403).json({ 
-        message: "ไม่มีสิทธิ์อัปโหลด" 
-      })
+      return res.status(400).json({ message: "ต้องอัปโหลดอย่างน้อย 2 รูป" })
     }
 
     for (const file of files) {
-      await uploadModel.insertTicketImage(
-        ticket_id,
-        "before",      // hardcode
-        "resident",
-        file.filename
-      )
+      await uploadModel.insertTicketImage(ticket_id, image_type, uploaded_by, file.filename)
     }
 
-    res.status(201).json({ message: "upload success" })
+    return res.status(201).json({ message: "upload success" })
 
   } catch (err) {
     cleanupFiles(files)
-    if (err.errno === 1452) {
-      return res.status(500).json({
-        message: "ไม่พบข้อมูลแจ้งซ่อม",
-        Error: err.mesage
-      })
-    }
-    console.log(err)
-    return res.status(500).json({
-      message: "server Error",
-      Error: err.message
-    })
+    console.error(err)
+    return res.status(500).json({ message: "server error", error: err.message })
   }
 }
-module.exports = { uploadTicketImages }
+
+// resident อัพรูปก่อนซ่อม
+const uploadBeforeImages = async (req, res) => {
+  // เช็คเจ้าของ ticket เฉพาะ resident
+  const ticket = await ticketModel.checkTicketById(req.params.ticket_id)
+  if (ticket?.user_id !== req.user.user_id) {
+    cleanupFiles(req.files)
+    return res.status(403).json({ message: "ไม่มีสิทธิ์อัปโหลด" })
+  }
+  return handleImageUpload(req, res, "before", "resident")
+}
+
+// admin อัพรูปหลังซ่อมเสร็จ
+const uploadAfterImages = async (req, res) => {
+  return handleImageUpload(req, res, "after", "admin")
+}
+
+module.exports = { uploadBeforeImages }

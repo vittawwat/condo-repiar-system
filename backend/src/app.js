@@ -16,10 +16,13 @@ console.log("dir",__dirname)
 
 const residentsRoute = require("./routes/residentsRoute");
 const ticketRoute = require("./routes/ticketRoute")
+const technicianRoute = require("./routes/technicianRoute")
 const devRoute = require("./routes/devRoute")
 
 app.use("/api/residents", residentsRoute);
 app.use("/api/tickets", ticketRoute);
+app.use("/api/technician",technicianRoute);
+
 
 //====================================//
 // สำหรับ genarete lineToken ไว้ test Login in postman //

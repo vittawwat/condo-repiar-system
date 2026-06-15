@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS residents (
 
 CREATE TABLE IF NOT EXISTS technicians (
   technician_id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100),
-  phone VARCHAR(20),
+  name VARCHAR(100) NOT NULL,
+  phone VARCHAR(20) NOT NULL,
   skill ENUM('plumbing','electric','aircon','other'),
   profile_image_url VARCHAR(255),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

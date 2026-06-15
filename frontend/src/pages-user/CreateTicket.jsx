@@ -103,7 +103,7 @@ export default function CreateTicket() {
         formData.append("images", image)
       }
 
-      await axios.post(`/api/tickets/${ticket_id}/images`,
+      await axios.post(`/api/tickets/${ticket_id}/images/before`,
         formData,
         {
           headers: {
