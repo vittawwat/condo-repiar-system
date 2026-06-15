@@ -41,7 +41,7 @@ function TicketModal({ ticketData, onClose, test, isOn }) {
             {ticketData.ticket.before_images.map((img, index) => (
               <img
                 key={index}
-                src={`/uploads/${img}`}
+                src={`/uploads/tickets/before/${img}`}
                 alt={`รูปที่ ${index + 1}`}
                 className="modal-img"
               />

@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS technicians (
   name VARCHAR(100),
   phone VARCHAR(20),
   skill ENUM('plumbing','electric','aircon','other'),
+  profile_image_url VARCHAR(255),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

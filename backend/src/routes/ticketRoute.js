@@ -7,13 +7,14 @@ const { createTicket,
         getTicketByStatus,
         updateStatusTicket 
     } = require("../controllers/ticketController")
-const { uploadImages } = require("../middleware/uploadMiddleware")
+// const { uploadImages } = require("../middleware/uploadMiddleware")
+const { uploadTicketBefore } = require("../middleware/uploadMiddleware")
 const { uploadTicketImages } = require("../controllers/uploadController")
 const { residentMiddleware } = require("../middleware/residentMiddleware");
 
 
 router.post("/", residentMiddleware,createTicket)
-router.post("/:ticket_id/images",residentMiddleware,uploadImages,uploadTicketImages)
+router.post("/:ticket_id/images",residentMiddleware,uploadTicketBefore,uploadTicketImages)
 
 router.get("/",getTicket)
 router.get("/:ticket_id",getTicketById)

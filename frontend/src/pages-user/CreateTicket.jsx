@@ -95,9 +95,9 @@ export default function CreateTicket() {
 
       // Step 2 - อัพรูป
       const formData = new FormData()
-      formData.append("image_type", "before")
-      formData.append("uploaded_by", "resident")
-      console.log("formData", formData);
+      // formData.append("image_type", "before")
+      // formData.append("uploaded_by", "resident")
+      // console.log("formData", formData);
       
       for (const image of images) {
         formData.append("images", image)
