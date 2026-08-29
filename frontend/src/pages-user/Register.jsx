@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import "./Register.css";
 
 export default function RegisterPage() {
 
@@ -10,14 +11,14 @@ export default function RegisterPage() {
     // รับ profile จาก Login ส่งมาเป็นข้อมูล state
     const profile = location.state?.profile;
     const line_token = localStorage.getItem("line_token");
-    
+
     const [fullname, setFullname] = useState("");
     const [room_number, setRoomNumber] = useState("");
     const [phone, setPhone] = useState("");
 
     useEffect(() => {
         console.log("Register PAGE");
-        
+
         // console.log("line_PROFILE:", profile);
         // console.log("line_token:", line_token);
         // console.log(typeof localStorage.getItem("line_token"))
@@ -50,7 +51,7 @@ export default function RegisterPage() {
 
             alert("Register Success");
 
-            navigate("/");
+            navigate("/create-ticket");
 
         } catch (error) {
 
@@ -62,45 +63,54 @@ export default function RegisterPage() {
 
     return (
 
-        <div style={styles.container}>
+        <div className="register-page">
+            <div className="register-card">
 
-            <h1>Register</h1>
+                <h1 className="register-title">Register</h1>
+                <p className="register-subtitle">
+                    Register to access the system
+                </p>
 
-            <form onSubmit={handleSubmit} style={styles.form} >
+                <form onSubmit={handleSubmit} className="register-form">
 
-                <input type="text" placeholder="ชื่อ-นามสกุล" value={fullname} onChange={(e) => {
-                    console.log("value:", e.target.value);
-                    setFullname(e.target.value)
-                }} />
-                <input type="text" placeholder="หมายเลขห้อง" value={room_number} onChange={(e) =>
-                    setRoomNumber(e.target.value)} />
-                <input type="text" placeholder="เบอร์โทรศัพท์" value={phone} onChange={(e) =>
-                    setPhone(e.target.value)} />
+                    <div className="form-group">
+                        <label>Full-Name</label>
+                        <input
+                            type="text"
+                            placeholder="Enter your full name"
+                            value={fullname}
+                            onChange={(e) => setFullname(e.target.value)}
+                        />
+                    </div>
 
-                <button type="submit"> Register </button>
+                    <div className="form-group">
+                        <label>Room Number</label>
+                        <input
+                            type="text"
+                            placeholder="A-101"
+                            value={room_number}
+                            onChange={(e) => setRoomNumber(e.target.value)}
+                        />
+                    </div>
 
-            </form>
+                    <div className="form-group">
+                        <label>Phone Number</label>
+                        <input
+                            type="text"
+                            placeholder="08xxxxxxxx"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                        />
+                    </div>
 
+                    <button type="submit" className="submit-btn">
+                        Register
+                    </button>
+
+                </form>
+
+            </div>
         </div>
 
     );
 }
-
-const styles = {
-
-    container: {
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-    },
-
-    form: {
-        display: "flex",
-        flexDirection: "column",
-        gap: "10px",
-        width: "300px",
-    },
-
-};

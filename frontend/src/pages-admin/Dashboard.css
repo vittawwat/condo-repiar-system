@@ -295,6 +295,58 @@ body {
 .ticket-table th:nth-child(6) { width: 10%; }
 .ticket-table th:nth-child(7) { width: 10%; }
 
+/* ===== Status Badge ===== */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* pending */
+
+.status-pending {
+  background: #FFF3D6;
+  color: #B7791F;
+}
+
+/* acknowledged */
+
+.status-acknowledged {
+  background: #E8F2FF;
+  color: #2563EB;
+}
+
+/* in progress */
+
+.status-in_progress {
+  background: #E7FAF3;
+  color: #0F766E;
+}
+
+/* completed */
+
+.status-completed {
+  background: #EEF8DD;
+  color: #3F7A16;
+}
+
+/* cancelled */
+
+.status-cancelled {
+  background: #FDE8E8;
+  color: #C0392B;
+}
+
 /* ===== Modal ===== */
 
 .modal-overlay {
@@ -353,4 +405,124 @@ body {
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: 10px;
+}
+
+/* คอลัมน์ปุ่ม */
+
+.action-cell {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* ปุ่มจัดการ */
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 84px;
+  height: 34px;
+
+  padding: 0 14px;
+
+  border: 1px solid #D8E3DE;
+  border-radius: 10px;
+
+  background: #F4FBF8;
+  color: #0F6E56;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background .15s ease,
+    border-color .15s ease,
+    color .15s ease,
+    transform .12s ease,
+    box-shadow .15s ease;
+}
+
+.action-btn:hover {
+  background: #E6F5EF;
+  border-color: #B9DDCF;
+  color: #0C5B48;
+  box-shadow: 0 4px 12px rgba(229, 233, 232, 0.12);
+  transform: translateY(-1px);
+}
+
+.action-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.action-btn:focus-visible {
+  outline: 3px solid rgba(15,110,86,.18);
+  outline-offset: 2px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.date-search {
+  display: flex;
+  align-items: center;
+  padding: 1%;
+  margin: 0%;
+  gap: 12px;
+  flex-wrap: wrap; /* จอเล็กค่อยขึ้นบรรทัดใหม่ */
+}
+
+.date-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.date-group span {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.date-search select {
+  padding: 8px 12px;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fff;
+  min-width: 90px;
+}
+
+.search-btn,
+.reset-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.search-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.search-btn:hover {
+  background: #1d4ed8;
+}
+
+.reset-btn {
+  background: #e5e7eb;
+}
+
+.reset-btn:hover {
+  background: #d1d5db;
 }

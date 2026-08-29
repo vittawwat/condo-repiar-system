@@ -11,8 +11,13 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./pages-user/Login";
 import Register from "./pages-user/Register";
 import CreateTicket from "./pages-user/CreateTicket";
+import ReschedulePage from "./pages-user/RequestReschedule"
 
 import Dashboard from "./pages-admin/Dashboard";
+import DashboardLayout from "./layouts/DashboardLayout";
+import ViewTechnicians from "./pages-admin/Technicians";
+import Notifications from "./pages-admin/Notifications";
+import Reports from "./pages-admin/Reports";
 
 function App() {
   return (
@@ -24,7 +29,14 @@ function App() {
 
       <Route path="/create-ticket" element={<CreateTicket />} />
 
-      <Route path="dashboard" element={<Dashboard />} />
+      <Route path="/reschedule/:ticket_id" element={<ReschedulePage />} />
+
+      <Route element={<DashboardLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/technicians" element={<ViewTechnicians />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/Reports" element={<Reports />} />
+        </Route>
 
     </Routes>
   );

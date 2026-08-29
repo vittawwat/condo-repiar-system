@@ -1,8 +1,13 @@
 const express = require("express")
 const router = express.Router()
 
-const { createTechnicians } = require("../controllers/techniciansController")
+const { createTechnician, updateTechnician, getTechnicians } = require("../controllers/techniciansController")
+const { uploadTechnicianProfile } = require("../middleware/uploadMiddleware")
 
-router.post("/",createTechnicians)
+
+router.post("/",uploadTechnicianProfile,createTechnician)
+router.get("/",getTechnicians)
+
+router.patch("/:technician_id",uploadTechnicianProfile,updateTechnician)
 
 module.exports = router;  

@@ -10,7 +10,7 @@ async function generateToken(req, res) {
       {
         sub: line_id
       },
-      process.env.MOCK_LINE_TOKEN_SECRET,
+      process.env.JWT_SECRET,
       { expiresIn: "1d" }
     )
 

@@ -131,55 +131,55 @@ export default function CreateTicket() {
   return (
     <div className="ticket-page">
       <div className="ticket-card">
-        <h1 className="ticket-title">🛠 แจ้งซ่อม</h1>
+        <h1 className="ticket-title">🛠 Maintenance Request</h1>
         <p className="ticket-subtitle">
-          กรุณากรอกรายละเอียดปัญหาให้ครบถ้วน
+          Please fill in all the details of the issue.
         </p>
 
         <form onSubmit={handleSubmit} className="ticket-form">
 
           <div className="form-group">
-            <label>หัวข้อ</label>
-            <input type="text" placeholder="เช่น ไฟห้องน้ำเสีย" value={title}
+            <label>Title</label>
+            <input type="text" placeholder="e.g., Bathroom light not working" value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
 
           <div className="form-group">
-            <label>รายละเอียด</label>
-            <textarea rows="4" placeholder="อธิบายปัญหาที่พบ..." value={detail}
+            <label>Details</label>
+            <textarea rows="4" placeholder="Describe the issue..." value={detail}
               onChange={(e) => setDetail(e.target.value)}
             />
           </div>
 
           <div className="form-group">
-            <label>ประเภท</label>
+            <label>Category</label>
             <select value={category} onChange={(e) => setCategory(e.target.value)}
             >
-              <option value="">เลือกประเภท</option>
-              <option value="electric">⚡ ไฟฟ้า</option>
-              <option value="plumbing">🚿 ประปา</option>
-              <option value="aircon">❄️ แอร์</option>
-              <option value="other">📌 อื่นๆ</option>
+              <option value="">Select Category</option>
+              <option value="electric">⚡ Electrical</option>
+              <option value="plumbing">🚿 Plumbing</option>
+              <option value="aircon">❄️ Air Conditioning</option>
+              <option value="other">📌 Other</option>
             </select>
           </div>
 
-          <div className="ticket-image-section">
+          <div className="info-card image-card">
             <label className="ticket-image-label">
-              รูปภาพ (อย่างน้อย 2 รูป)
+              Images (Minimum 2 photos)
             </label>
 
             <div className="upload-actions">
 
               <label className="upload-btn">
-                ถ่ายรูป
+                Take Photo
                 <input type="file" accept="image/*" capture="environment"
                   onChange={handleImages}
                 />
               </label>
 
               <label className="upload-btn">
-                เลือกรูป
+                Choose Image
                 <input type="file" multiple accept="image/*"
                   onChange={handleImages}
                 />
@@ -188,24 +188,25 @@ export default function CreateTicket() {
 
             <div className="preview-grid">
               {images.map((img, i) => (
-                < div key={i} className="preview-item" >
+                <div key={i} className="preview-item">
                   <img src={previews[i]} alt="" className="preview-image" />
 
-                  <button type="button" onClick={() => removeImage(i)}>×</button>
+                  <button type="button" className="preview-delete-btn"
+                   onClick={() => removeImage(i)}>×</button>
                 </div>
               ))}
             </div>
 
             <p className="image-count">
-              เพิ่มแล้ว {images.length} รูป
+              {images.length} images added
             </p>
           </div>
 
           <button type="submit" className="submit-btn">
-            ส่งคำขอแจ้งซ่อม
+            Submit Request
           </button>
         </form>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 }

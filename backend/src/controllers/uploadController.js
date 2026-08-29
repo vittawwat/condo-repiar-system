@@ -48,6 +48,7 @@ const uploadBeforeImages = async (req, res) => {
   return handleImageUpload(req, res, "before", "resident")
 }
 
+
 // admin อัพรูปหลังซ่อมเสร็จ
 const uploadAfterImages = async (req, res) => {
   return handleImageUpload(req, res, "after", "admin")

@@ -12,6 +12,7 @@ export default defineConfig({
     },
     allowedHosts: [
       "hug-glucose-geologist.ngrok-free.dev",
+      "virginia-lemon-matched-long.trycloudflare.com",
     ],
     proxy: {
       "/api": {

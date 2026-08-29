@@ -1,20 +1,22 @@
 const line = require("@line/bot-sdk")
+const { formatTicketNumber } = require("../utils/ticketStatus")
 
 const client = new line.messagingApi.MessagingApiClient({
     channelAccessToken: process.env.Channel_access_token_v2
 })
+const LIFF_ID = process.env.LIFF_ID_BACKEND
 
-async function checkFlexmessage(req, res) {
+async function flexMessage(req, res) {
     try {
 
         const { line_id } = req.body
 
         const ticketData = {
-            ticket_id: 15,
+            ticket_id: 2,
             technicianName: "สมชาย ใจดี",
             technicianPhone: "081-234-5678",
             appointmentDate: "15/06/2026 10:00 น.",
-            ticketId: 15
+            ticketId: 2
         }
 
         await sendAppointmentFlex(line_id, ticketData)
@@ -83,6 +85,16 @@ async function webhook(req, res) {
 }
 
 async function sendAppointmentFlex(line_id, ticketData) {
+
+    // เช็คก่อนว่าข้อมูลที่จำเป็นมาครบไหม กันส่ง Flex ออกไปแบบข้อมูลขาด
+    if (!line_id) {
+        throw new Error("missing line_id, cannot send flex message");
+    }
+    if (!ticketData?.ticket_id || !ticketData?.technicianName || !ticketData?.appointmentDate) {
+        throw new Error("missing required ticketData fields (ticket_id, technicianName, appointmentDate)");
+    }
+
+    const ticket_id = formatTicketNumber(ticketData.ticket_id)
     await client.pushMessage({
         to: line_id,
         messages: [
@@ -112,12 +124,30 @@ async function sendAppointmentFlex(line_id, ticketData) {
                         contents: [
                             {
                                 type: "text",
-                                text: `Ticket #${ticketData.ticket_id}`,
+                                text: `เลขงาน #${ticket_id}`,
                                 color: "#000000",
                                 weight: "bold",
                                 size: "xl"
                             },
-
+                            {
+                                type: "box",
+                                layout: "horizontal",
+                                contents: [
+                                    {
+                                        type: "text",
+                                        text: "หัวข้อ",
+                                        color: "#888888",
+                                        size: "sm",
+                                        flex: 2
+                                    },
+                                    {
+                                        type: "text",
+                                        text: ticketData.title,
+                                        size: "sm",
+                                        flex: 5
+                                    }
+                                ]
+                            },
                             {
                                 type: "box",
                                 layout: "horizontal",
@@ -187,21 +217,11 @@ async function sendAppointmentFlex(line_id, ticketData) {
                         contents: [
                             {
                                 type: "button",
-                                style: "primary",
-                                color: "#06C755",
-                                action: {
-                                    type: "postback",
-                                    label: "✅ ยืนยันความสะดวก",
-                                    data: `action=confirm&ticket_id=${ticketData.ticketId}`
-                                }
-                            },
-                            {
-                                type: "button",
                                 style: "secondary",
                                 action: {
-                                    type: "postback",
+                                    type: "uri",
                                     label: "📅 ขอเปลี่ยนวันนัด",
-                                    data: `action=reschedule&ticket_id=${ticketData.ticketId}`
+                                    uri: `https://liff.line.me/${LIFF_ID}/reschedule/${ticketData.ticketId}`
                                 }
                             }
                         ]
@@ -212,4 +232,4 @@ async function sendAppointmentFlex(line_id, ticketData) {
     })
 }
 
-module.exports = { checkFlexmessage, webhook }
+module.exports = { flexMessage, webhook, sendAppointmentFlex }

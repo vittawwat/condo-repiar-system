@@ -29,7 +29,9 @@ const residentMiddleware = async (req, res, next) => {
         console.log("checkUser_Id middle", user);
 
         if (!user) {
-            return res.status(401).json({ message: "User not found" })
+            return res.status(401).json({ 
+                message: "User not found",
+            })
         }
 
         if (user.line_id !== decoded.line_id) {

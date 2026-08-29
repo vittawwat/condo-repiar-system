@@ -8,9 +8,10 @@ const { registerResident,
 const { residentMiddleware } = require("../middleware/residentMiddleware");
 const { lineMiddleware } = require("../middleware/lineMiddleware")
 
-// gen-token_line สำหรับเทส postman 
-// const { generateToken } = require("../../generateToken")
-// router.post("/generateToken-test",generateToken)
+// gen-token_line สำหรับเทส postman เพื่อใช้ login ในการเทส api ของ residents
+const { generateToken } = require("../../generateToken")
+router.post("/generateToken-test",generateToken)
+//===========================================//
 
 router.post("/login",lineMiddleware,loginResidents)
 

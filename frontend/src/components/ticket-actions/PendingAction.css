@@ -1,0 +1,77 @@
+/* footer ปุ่ม */
+
+.action-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid #eef2f5;
+}
+
+/* ปุ่มยกเลิก */
+
+.cancel-btn {
+  min-width: 120px;
+  padding: 12px 18px;
+
+  border: 1px solid #d0d5dd;
+  border-radius: 12px;
+
+  background: #fff;
+  color: #475467;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all .15s ease;
+}
+
+.cancel-btn:hover {
+  background: #f8fafc;
+  border-color: #c5ccd6;
+}
+
+/* ปุ่มยืนยัน */
+
+.ack-btn {
+  min-width: 150px;
+  padding: 12px 20px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #0F6E56, #13866B);
+  color: #fff;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow: 0 8px 20px rgba(15,110,86,.22);
+  transition: all .18s ease;
+}
+
+.ack-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px rgba(15,110,86,.28);
+}
+
+.ack-btn:active {
+  transform: translateY(0);
+}
+
+/* มือถือ */
+
+@media (max-width: 480px) {
+  .action-footer {
+    flex-direction: column-reverse;
+  }
+
+  .cancel-btn,
+  .ack-btn {
+    width: 100%;
+  }
+}

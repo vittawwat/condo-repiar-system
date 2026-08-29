@@ -17,11 +17,16 @@ console.log("dir",__dirname)
 const residentsRoute = require("./routes/residentsRoute");
 const ticketRoute = require("./routes/ticketRoute")
 const technicianRoute = require("./routes/technicianRoute")
+const notificationRoutes = require('./routes/notificationRoutes');
 const devRoute = require("./routes/devRoute")
+const reportRoutes = require("./routes/reportRoutes");
+
 
 app.use("/api/residents", residentsRoute);
 app.use("/api/tickets", ticketRoute);
 app.use("/api/technician",technicianRoute);
+app.use('/api/notifications', notificationRoutes);
+app.use("/api/reports", reportRoutes);
 
 
 //====================================//
