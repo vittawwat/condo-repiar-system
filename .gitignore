@@ -9,4 +9,10 @@ build
 .env
 
 # Uploaded images
-backend/uploads/
+backend/uploads/*
+!backend/uploads/.gitkeep
+!backend/uploads/technicians/
+!backend/uploads/technicians/.gitkeep
+!backend/uploads/tickets/
+!backend/uploads/tickets/before/
+!backend/uploads/tickets/before/.gitkeep
