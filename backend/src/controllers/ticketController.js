@@ -3,7 +3,7 @@ const userModel = require("../models/residentModel");
 const technicianModel = require("../models/technicianModel")
 
 const { pushMessage } = require("../services/line_push_message")
-const { sendAppointmentFlex } = require("../services/line_flex_message")
+const { sendAppointmentFlex, sendClosedTicketFlex } = require("../services/line_flex_message")
 const { canChangeStatus } = require("../utils/ticketStatus")
 
 async function createTicket(req, res) {
@@ -266,24 +266,23 @@ async function assignTechnician(req, res) {
 
     await ticketModel.createAppointment(ticket_id, technician_id, appointment_date, status)
 
-    // ใช้งานได้แล้วค่อยเปิดตอนใช้จริง
-    // try {
-    //   await sendAppointmentFlex(ticket.line_id, {
-    //     ticket_id: ticket.ticket_id,
-    //     title: ticket.title,
-    //     technicianName: `${technician.firstname} ${technician.lastname}`,
-    //     technicianPhone: technician.phone,
-    //     appointmentDate: new Date(appointment_date).toLocaleString("th-TH", {
-    //       dateStyle: "short",
-    //       timeStyle: "short",
-    //     }),
-    //     ticketId: ticket.ticket_id,
-    //   });
-    // } catch (flexError) {
-    //   // ไม่ทำให้ทั้ง request fail แค่เพราะส่งข้อความไม่สำเร็จ
-    //   // เพราะ ticket นัดช่างสำเร็จแล้วจริง แค่แจ้งเตือนพลาด
-    //   console.error("ส่ง Flex Message ไม่สำเร็จ:", flexError.message);
-    // }
+    try {
+      await sendAppointmentFlex(ticket.line_id, {
+        ticket_id: ticket.ticket_id,
+        title: ticket.title,
+        technicianName: `${technician.firstname} ${technician.lastname}`,
+        technicianPhone: technician.phone,
+        appointmentDate: new Date(appointment_date).toLocaleString("th-TH", {
+          dateStyle: "short",
+          timeStyle: "short",
+        }),
+        ticketId: ticket.ticket_id,
+      });
+    } catch (flexError) {
+      // ไม่ทำให้ทั้ง request fail แค่เพราะส่งข้อความไม่สำเร็จ
+      // เพราะ ticket นัดช่างสำเร็จแล้วจริง แค่แจ้งเตือนพลาด
+      console.error("ส่ง Flex Message ไม่สำเร็จ:", flexError.message);
+    }
 
     res.status(200).json({
       success: true,
@@ -457,6 +456,18 @@ async function submitRepairExpense(req, res) {
 
     await ticketModel.updateRepairExpense( ticket_id, status, total_cost, reason || null );
 
+    try {
+      await sendClosedTicketFlex(ticket.line_id, {
+        ticket_id: ticket.ticket_id,
+        title: ticket.title,
+        totalCost: total_cost,
+        reason: reason || null,
+      });
+    } catch (flexError) {
+      // ปิดงานสำเร็จแล้ว แค่แจ้งเตือนพลาดไม่ต้องทำให้ request fail
+      console.error("ส่ง Flex Message สรุปปิดงานไม่สำเร็จ:", flexError.message);
+    }
+
     // 4. ส่งผลลัพธ์กลับ
     return res.status(200).json({
       success: true,
@@ -491,6 +502,7 @@ function formatTicket(ticketById, ticket_images) {
     room: ticketById[0].room_number,
     create_at: ticketById[0].created_at,
     title: ticketById[0].title,
+    category: ticketById[0].category,
     detail: ticketById[0].detail,
     status: ticketById[0].status,
     total_cost: ticketById[0].total_cost,

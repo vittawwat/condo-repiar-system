@@ -232,4 +232,261 @@ async function sendAppointmentFlex(line_id, ticketData) {
     })
 }
 
-module.exports = { flexMessage, webhook, sendAppointmentFlex }
+async function sendAppointmentConfirmedFlex(line_id, ticketData) {
+
+    // เช็คก่อนว่าข้อมูลที่จำเป็นมาครบไหม กันส่ง Flex ออกไปแบบข้อมูลขาด
+    if (!line_id) {
+        throw new Error("missing line_id, cannot send flex message");
+    }
+    if (!ticketData?.ticket_id || !ticketData?.appointmentDate) {
+        throw new Error("missing required ticketData fields (ticket_id, appointmentDate)");
+    }
+
+    const ticket_id = formatTicketNumber(ticketData.ticket_id)
+
+    await client.pushMessage({
+        to: line_id,
+        messages: [
+            {
+                type: "flex",
+                altText: "ยืนยันวันนัดหมายใหม่",
+                contents: {
+                    type: "bubble",
+                    header: {
+                        type: "box",
+                        layout: "vertical",
+                        backgroundColor: "#06C755",
+                        contents: [
+                            {
+                                type: "text",
+                                text: "📅 ยืนยันวันนัดหมาย",
+                                color: "#ffffff",
+                                weight: "bold",
+                                size: "md"
+                            }
+                        ]
+                    },
+                    body: {
+                        type: "box",
+                        layout: "vertical",
+                        spacing: "md",
+                        contents: [
+                            {
+                                type: "text",
+                                text: `เลขงาน #${ticket_id}`,
+                                color: "#000000",
+                                weight: "bold",
+                                size: "xl"
+                            },
+                            {
+                                type: "box",
+                                layout: "horizontal",
+                                contents: [
+                                    {
+                                        type: "text",
+                                        text: "หัวข้อ",
+                                        color: "#888888",
+                                        size: "sm",
+                                        flex: 2
+                                    },
+                                    {
+                                        type: "text",
+                                        text: ticketData.title || "-",
+                                        size: "sm",
+                                        flex: 5,
+                                        wrap: true
+                                    }
+                                ]
+                            },
+                            {
+                                type: "box",
+                                layout: "horizontal",
+                                contents: [
+                                    {
+                                        type: "text",
+                                        text: "ช่าง",
+                                        color: "#888888",
+                                        size: "sm",
+                                        flex: 2
+                                    },
+                                    {
+                                        type: "text",
+                                        text: ticketData.technicianName || "-",
+                                        size: "sm",
+                                        flex: 5
+                                    }
+                                ]
+                            },
+                            {
+                                type: "box",
+                                layout: "horizontal",
+                                contents: [
+                                    {
+                                        type: "text",
+                                        text: "เบอร์โทร",
+                                        color: "#888888",
+                                        size: "sm",
+                                        flex: 2
+                                    },
+                                    {
+                                        type: "text",
+                                        text: ticketData.technicianPhone || "-",
+                                        size: "sm",
+                                        flex: 5
+                                    }
+                                ]
+                            },
+                            {
+                                type: "box",
+                                layout: "horizontal",
+                                contents: [
+                                    {
+                                        type: "text",
+                                        text: "วันนัดใหม่",
+                                        color: "#888888",
+                                        size: "sm",
+                                        flex: 2
+                                    },
+                                    {
+                                        type: "text",
+                                        text: ticketData.appointmentDate,
+                                        size: "sm",
+                                        flex: 5,
+                                        wrap: true,
+                                        weight: "bold"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    })
+}
+
+async function sendClosedTicketFlex(line_id, ticketData) {
+
+    if (!line_id) {
+        throw new Error("missing line_id, cannot send flex message");
+    }
+    if (!ticketData?.ticket_id || ticketData?.totalCost == null) {
+        throw new Error("missing required ticketData fields (ticket_id, totalCost)");
+    }
+
+    const ticket_id = formatTicketNumber(ticketData.ticket_id)
+    const costText = Number(ticketData.totalCost).toLocaleString("th-TH", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    })
+
+    await client.pushMessage({
+        to: line_id,
+        messages: [
+            {
+                type: "flex",
+                altText: "ปิดงานซ่อมเรียบร้อยแล้ว",
+                contents: {
+                    type: "bubble",
+                    header: {
+                        type: "box",
+                        layout: "vertical",
+                        backgroundColor: "#06C755",
+                        contents: [
+                            {
+                                type: "text",
+                                text: "✅ ปิดงานซ่อมเรียบร้อยแล้ว",
+                                color: "#ffffff",
+                                weight: "bold",
+                                size: "md",
+                                wrap: true
+                            }
+                        ]
+                    },
+                    body: {
+                        type: "box",
+                        layout: "vertical",
+                        spacing: "md",
+                        contents: [
+                            {
+                                type: "text",
+                                text: `เลขงาน #${ticket_id}`,
+                                color: "#000000",
+                                weight: "bold",
+                                size: "xl"
+                            },
+                            {
+                                type: "box",
+                                layout: "horizontal",
+                                contents: [
+                                    {
+                                        type: "text",
+                                        text: "หัวข้อ",
+                                        color: "#888888",
+                                        size: "sm",
+                                        flex: 2
+                                    },
+                                    {
+                                        type: "text",
+                                        text: ticketData.title || "-",
+                                        size: "sm",
+                                        flex: 5,
+                                        wrap: true
+                                    }
+                                ]
+                            },
+                            {
+                                type: "box",
+                                layout: "horizontal",
+                                contents: [
+                                    {
+                                        type: "text",
+                                        text: "ค่าใช้จ่าย",
+                                        color: "#888888",
+                                        size: "sm",
+                                        flex: 2
+                                    },
+                                    {
+                                        type: "text",
+                                        text: `${costText} บาท`,
+                                        size: "sm",
+                                        flex: 5,
+                                        weight: "bold"
+                                    }
+                                ]
+                            },
+                            {
+                                type: "box",
+                                layout: "horizontal",
+                                contents: [
+                                    {
+                                        type: "text",
+                                        text: "รายละเอียด",
+                                        color: "#888888",
+                                        size: "sm",
+                                        flex: 2
+                                    },
+                                    {
+                                        type: "text",
+                                        text: ticketData.reason || "-",
+                                        size: "sm",
+                                        flex: 5,
+                                        wrap: true
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    })
+}
+
+module.exports = {
+    flexMessage,
+    webhook,
+    sendAppointmentFlex,
+    sendAppointmentConfirmedFlex,
+    sendClosedTicketFlex
+}

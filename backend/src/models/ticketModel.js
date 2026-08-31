@@ -61,7 +61,7 @@ exports.getTicketById = async (ticket_id) => {
   const [row] = await pool.query(
     `
         SELECT 
-        t.ticket_id, t.user_id, t.title, t.detail, t.category, t.status, t.technician_id, t.appointment_date, appointment_status, t.total_cost, t.reason,
+        t.ticket_id, t.user_id, t.title, t.detail, t.category, t.created_at, t.status, t.technician_id, t.appointment_date, appointment_status, t.total_cost, t.reason,
         r.line_id, r.fullname, r.room_number,
         tech.firstname, tech.lastname, tech.phone, tech.skill, tech.profile_image_url
         FROM tickets t

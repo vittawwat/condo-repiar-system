@@ -11,7 +11,9 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./pages-user/Login";
 import Register from "./pages-user/Register";
 import CreateTicket from "./pages-user/CreateTicket";
-import ReschedulePage from "./pages-user/RequestReschedule"
+import ReschedulePage from "./pages-user/RequestReschedule";
+import MyTickets from "./pages-user/MyTickets";
+import TicketDetail from "./pages-user/TicketDetail";
 
 import Dashboard from "./pages-admin/Dashboard";
 import DashboardLayout from "./layouts/DashboardLayout";
@@ -22,14 +24,17 @@ import Reports from "./pages-admin/Reports";
 function App() {
   return (
     <Routes>
-
+      {/* liff ช่อง 1 */}
       <Route path="/" element={<Login />} />
-
       <Route path="/register" element={<Register />} />
-
       <Route path="/create-ticket" element={<CreateTicket />} />
 
+      {/* ปุ่มขอเปลี่ยนวันตอนส่ง flex message  */}
       <Route path="/reschedule/:ticket_id" element={<ReschedulePage />} />
+
+      {/* liff ช่อง 2 */}
+      <Route path="/my-tickets" element={<MyTickets />} />
+      <Route path="/my-tickets/:ticket_id" element={<TicketDetail />} />
 
       <Route element={<DashboardLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
