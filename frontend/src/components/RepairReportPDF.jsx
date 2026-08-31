@@ -1,4 +1,12 @@
-import { Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
+import {
+    Document,
+    Page,
+    Text,
+    View,
+    StyleSheet,
+    Font
+} from "@react-pdf/renderer";
+
 import {
     checkCategory,
     formatTicketNumber,
@@ -26,6 +34,10 @@ Font.register({
     ]
 });
 
+// ปิด hyphenation ของ react-pdf ไม่ให้มันพยายามตัดคำไทยเอง
+// (เป็นอีกสาเหตุที่ทำให้ตัวอักษรไทยดูแหว่ง/ตกหล่นเวลา wrap บรรทัด)
+Font.registerHyphenationCallback((word) => [word]);
+
 
 /* =========================
    Styles
@@ -33,23 +45,51 @@ Font.register({
 
 const styles = StyleSheet.create({
 
+    /* =========================
+       Page
+    ========================= */
+
     page: {
-        padding: 30,
+        padding: 24,
         fontFamily: "Sarabun",
-        fontSize: 10
+        fontSize: 8,
+        color: "#1a1a1a",
+    },
+
+
+    /* =========================
+       Header
+    ========================= */
+
+    headerRowTop: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        marginBottom: 10,
+    },
+
+    headerLeft: {
+        flexDirection: "column",
     },
 
     title: {
-        fontSize: 20,
+        fontSize: 15,
         fontWeight: "bold",
-        textAlign: "center",
-        marginBottom: 6
+        lineHeight: 1.5,
+        marginBottom: 2,
     },
 
     subtitle: {
-        fontSize: 11,
-        textAlign: "center",
-        marginBottom: 20
+        fontSize: 9,
+        lineHeight: 1.5,
+        color: "#444",
+    },
+
+    printDate: {
+        fontSize: 8,
+        lineHeight: 1.5,
+        color: "#666",
+        textAlign: "right",
     },
 
 
@@ -60,24 +100,34 @@ const styles = StyleSheet.create({
     summaryContainer: {
         flexDirection: "row",
         justifyContent: "flex-end",
-        marginBottom: 20
+        marginBottom: 12,
     },
 
     summaryBox: {
-        width: 180,
-        border: "1 solid #999",
-        padding: 10,
-        marginLeft: 10
+        minWidth: 130,
+        border: "1 solid #ccc",
+        borderRadius: 3,
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        marginLeft: 8,
+    },
+
+    summaryBoxHighlight: {
+        backgroundColor: "#f2f6fc",
+        borderColor: "#9db8dd",
     },
 
     summaryLabel: {
-        fontSize: 10,
-        marginBottom: 4
+        fontSize: 8,
+        lineHeight: 1.5,
+        color: "#555",
+        marginBottom: 2,
     },
 
     summaryValue: {
-        fontSize: 15,
-        fontWeight: "bold"
+        fontSize: 12,
+        fontWeight: "bold",
+        lineHeight: 1.5,
     },
 
 
@@ -87,135 +137,177 @@ const styles = StyleSheet.create({
 
     table: {
         width: "100%",
-        border: "1 solid #000"
+        borderBottom: "none",
     },
 
     tableRow: {
         flexDirection: "row",
-        borderBottom: "1 solid #999",
-        minHeight: 30,
-        alignItems: "center"
+        alignItems: "stretch",
     },
 
     headerRow: {
-        backgroundColor: "#eeeeee"
+        backgroundColor: "#e9edf3",
     },
 
+    dataRowAlt: {
+        backgroundColor: "#f7f8fa",
+    },
+
+
+    /* =========================
+       Cell
+    ========================= */
+
     cell: {
-        padding: 0,
-        borderRight: "0 solid #999",
-        fontSize: 9
+        paddingTop: 5,
+        paddingBottom: 3,
+        paddingHorizontal: 4,
+        fontSize: 8,
+        lineHeight: 1.5,
+    },
+
+    headerCell: {
+        fontWeight: "bold",
+        fontSize: 8,
+        textAlign: "center",
     },
 
 
     /* =========================
        Column Width
+
+       วันที่       12%
+       ห้อง         8%
+       เลขงาน       11%
+       ประเภท       13%
+       รายการซ่อม   41%
+       จำนวนเงิน    15%
+
+       รวม          100%
     ========================= */
 
-    ticket: {
-        width: "9%",
-        textAlign: "center"
-    },
-
     date: {
-        width: "11%",
-        textAlign: "center"
+        width: "12%",
+        textAlign: "center",
     },
 
     room: {
-        width: "7%",
-        textAlign: "center"
+        width: "8%",
+        textAlign: "center",
     },
 
-    titleCell: {
-        width: "17%"
+    ticket: {
+        width: "11%",
+        textAlign: "center",
     },
 
     category: {
-        width: "10%",
-        textAlign: "center"
+        width: "13%",
+        textAlign: "center",
     },
 
-    technician: {
-        width: "13%"
-    },
-
-    reason: {
-        width: "23%"
+    titleCell: {
+        width: "41%",
     },
 
     cost: {
-        width: "10%",
+        width: "15%",
         textAlign: "right",
-        borderRight: "none"
+        borderRight: "none",
     },
 
 
     /* =========================
-       Total
+       No Data
     ========================= */
 
-    totalRow: {
-        marginTop: 15,
-        alignItems: "flex-end"
+    noData: {
+        width: "100%",
+        textAlign: "center",
+        paddingVertical: 14,
+        fontSize: 9,
+        lineHeight: 1.5,
+        color: "#888",
     },
 
-    totalText: {
-        fontSize: 13,
-        fontWeight: "bold"
-    }
-
 });
-
 
 /* =========================
    PDF Component
 ========================= */
 
 function RepairReportPDF({ report }) {
+
+     console.log("========== PDF DATA ==========");
+
+    report?.data?.forEach((item, index) => {
+        console.log("PDF ITEM", index);
+        console.log("ticket_id:", item.ticket_id);
+        console.log("title:", item.title);
+        console.log("title length:", item.title?.length);
+    });
+
     return (
+
         <Document>
-            <Page size="A4" orientation="landscape" style={styles.page}>
+
+            <Page
+                size="A4"
+                orientation="landscape"
+                style={styles.page}
+            >
+
                 {/* =========================
                     Header
                 ========================= */}
-                <Text style={styles.title}>
-                    รายงานค่าใช้จ่ายงานแจ้งซ่อม
-                </Text>
 
-                <Text style={styles.subtitle}>
-                    ระหว่างวันที่{" "}{formatDateOnly(report.start_date)}{" ถึง "}{formatDateOnly(report.end_date)}
-                </Text>
+                <View style={styles.headerRowTop}>
 
-                <Text style={styles.printDate}>
-                    วันที่จัดทำเอกสาร: {formatPrintDate()}
-                </Text>
+                    <View style={styles.headerLeft}>
+                        <Text style={styles.title}>
+                            รายงานค่าใช้จ่ายงานแจ้งซ่อม
+                        </Text>
+
+                        <Text style={styles.subtitle}>
+                            ระหว่างวันที่ {formatDateOnly(report.start_date)}
+                            {" ถึง "}
+                            {formatDateOnly(report.end_date)}
+                        </Text>
+                    </View>
+
+                    <Text style={styles.printDate}>
+                        วันที่จัดทำเอกสาร{"\n"}{formatPrintDate()}
+                    </Text>
+
+                </View>
+
 
                 {/* =========================
                     Summary
+                    (แสดงค่าใช้จ่ายรวมที่นี่จุดเดียว
+                     ไม่ซ้ำกับด้านล่างของตารางอีก)
                 ========================= */}
+
                 <View style={styles.summaryContainer}>
 
                     <View style={styles.summaryBox}>
                         <Text style={styles.summaryLabel}>
                             จำนวนรายการ
                         </Text>
-
                         <Text style={styles.summaryValue}>
                             {Number(report.summary?.total_items || 0).toLocaleString("th-TH")} รายการ
                         </Text>
                     </View>
 
-
-                    <View style={styles.summaryBox}>
+                    <View style={[styles.summaryBox, styles.summaryBoxHighlight]}>
                         <Text style={styles.summaryLabel}>
                             ค่าใช้จ่ายรวม
                         </Text>
-
                         <Text style={styles.summaryValue}>
-                            {formatMoney(report.summary?.total_cost)} บาท
+                            {formatMoney(report.summary?.total_cost || 0)} บาท
                         </Text>
                     </View>
+
                 </View>
 
 
@@ -224,113 +316,98 @@ function RepairReportPDF({ report }) {
                 ========================= */}
 
                 <View style={styles.table}>
-                    {/* Table Header */}
-                    <View style={[styles.tableRow, styles.headerRow]} >
 
-                        <Text style={[styles.cell, styles.ticket]}>
-                            เลขงาน
+                    {/* Header */}
+                    <View style={[styles.tableRow, styles.headerRow]} fixed>
+
+                        <Text style={[styles.cell, styles.date, styles.headerCell]}>
+                            วันที่
                         </Text>
 
-                        <Text style={[styles.cell, styles.date]}>
-                            วันที่แจ้ง
-                        </Text>
-
-                        <Text style={[styles.cell, styles.room]}>
+                        <Text style={[styles.cell, styles.room, styles.headerCell]}>
                             ห้อง
                         </Text>
 
-                        <Text style={[styles.cell, styles.titleCell]}>
-                            รายการซ่อม
+                        <Text style={[styles.cell, styles.ticket, styles.headerCell]}>
+                            เลขงาน
                         </Text>
 
-                        <Text style={[styles.cell, styles.category]}>
+                        <Text style={[styles.cell, styles.category, styles.headerCell]}>
                             ประเภท
                         </Text>
 
-                        <Text style={[styles.cell, styles.technician]}>
-                            ช่าง
-                        </Text>
+                        {/* <Text style={[styles.cell, styles.titleCell, styles.headerCell]}>
+                            รายการซ่อม
+                        </Text> */}
 
-                        <Text style={[styles.cell, styles.reason]}>
-                            รายละเอียด
-                        </Text>
-
-                        <Text style={[styles.cell, styles.cost]}>
-                            ค่าใช้จ่าย
+                        <Text style={[styles.cell, styles.cost, styles.headerCell]}>
+                            จำนวนเงิน{" "}
                         </Text>
 
                     </View>
 
-                    {/* Table Data */}
-                    {report.data?.map((item) => (
 
-                        <View
-                            style={styles.tableRow}
-                            key={item.ticket_id}
-                        >
-                            {/* Ticket Number */}
-                            <Text style={[styles.cell, styles.ticket]}>
-                                {formatTicketNumber(item.ticket_id)}
+                    {/* Data */}
+                    {report.data?.length === 0 ? (
+
+                        <View style={styles.tableRow}>
+                            <Text style={styles.noData}>
+                                ไม่พบข้อมูลในช่วงวันที่เลือก
                             </Text>
-
-                            {/* Date */}
-                            <Text style={[styles.cell, styles.date]}>
-                                {formatDateOnly(item.created_at)}
-                            </Text>
-
-                            {/* Room */}
-                            <Text style={[styles.cell, styles.room]}>
-                                {item.room_number || "-"}
-                            </Text>
-
-                            {/* Title */}
-                            <Text style={[styles.cell, styles.titleCell]}>
-                                {item.title || "-"}
-                            </Text>
-
-                            {/* Category */}
-                            <Text style={[styles.cell, styles.category]}>
-                                {checkCategory(item.category)}
-                            </Text>
-
-                            {/* Technician */}
-                            <Text style={[styles.cell, styles.technician]}>
-                                {item.technician_name || "-"}
-                            </Text>
-
-                            {/* Reason */}
-                            <Text style={[styles.cell, styles.reason]}>
-                                {item.reason || "-"}
-                            </Text>
-
-                            {/* Cost */}
-                            <Text style={[styles.cell, styles.cost]}>
-                                {formatMoney(item.total_cost)}
-                            </Text>
-
                         </View>
-                    ))}
+
+                    ) : (
+
+                        report.data?.map((item, index) => (
+
+                            <View
+                                style={[
+                                    styles.tableRow,
+                                    index % 2 === 1 ? styles.dataRowAlt : null,
+                                ]}
+                                key={item.ticket_id}
+                                wrap={false}
+                            >
+
+                                <Text style={[styles.cell, styles.date]}>
+                                    {formatDateOnly(item.created_at)}
+                                </Text>
+
+                                <Text style={[styles.cell, styles.room]}>
+                                    {item.room_number || "-"}
+                                </Text>
+
+                                <Text style={[styles.cell, styles.ticket]}>
+                                    {formatTicketNumber(item.ticket_id)}
+                                </Text>
+
+                                <Text style={[styles.cell, styles.category]}>
+                                    {checkCategory(item.category)}
+                                </Text>
+
+                                {/* <Text style={[styles.cell, styles.titleCell]}>
+                                    {item.title || "-"}
+                                    {"  "}
+                                </Text> */}
+
+                                <Text style={[styles.cell, styles.cost]}>
+                                    {formatMoney(item.total_cost || 0)} บาท
+                                </Text>
+
+                            </View>
+
+                        ))
+
+                    )}
+                    
+
                 </View>
-
-
-                {/* =========================
-                    Total
-                ========================= */}
-
-                <View style={styles.totalRow}>
-
-                    <Text style={styles.totalText}>
-                        รวมค่าใช้จ่ายทั้งหมด:{" "}{formatMoney(report.summary?.total_cost)} บาท
-                    </Text>
-
-                </View>
+                
 
             </Page>
 
         </Document>
-
     );
-
 }
 
 

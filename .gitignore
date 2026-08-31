@@ -16,3 +16,6 @@ backend/uploads/*
 !backend/uploads/tickets/
 !backend/uploads/tickets/before/
 !backend/uploads/tickets/before/.gitkeep
+
+richmenu.js
+richmenu.jpg

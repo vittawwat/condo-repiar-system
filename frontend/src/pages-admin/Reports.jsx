@@ -1,15 +1,16 @@
 import { useState } from "react";
 import axios from "axios";
 import "./Reports.css";
+
 import {
     formatTicketNumber,
     checkCategory,
     formatDateOnly,
     formatMoney
 } from "../utils/ticketUtils";
+
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import RepairReportPDF from "../components/RepairReportPDF";
-
 import DateDropdown from "../components/DateDropdown";
 
 function Reports() {
@@ -59,7 +60,7 @@ function Reports() {
             );
         }
     };
-
+    
     return (
 
         <div className="reports-page">
@@ -90,55 +91,94 @@ function Reports() {
             ========================= */}
 
             <div className="report-filter">
+
                 <DateDropdown
                     onSearch={({ startDate, endDate }) => {
-                        // เก็บวันที่ไว้ใน state
+
                         setStartDate(startDate);
                         setEndDate(endDate);
-                        // ค้นหาทันที
+
                         handleSearch(startDate, endDate);
                     }}
+
                     onReset={() => {
+
                         setStartDate("");
                         setEndDate("");
                         setReport(null);
+
                     }}
                 />
+
             </div>
 
-            {/* =========================Report========================= */}
-            {report && (
-                <>
-                    {/* =========================  Summary ========================= */}
-                    <div className="report-summary">
-                        <div className="summary-card">
-                            <div className="summary-label"> จำนวนรายการ</div>
 
-                            <div className="summary-value">
-                                {Number(report.summary.total_items).toLocaleString("th-TH")}
+            {/* =========================
+                Report
+            ========================= */}
+
+            {report && (
+
+                <>
+
+                    {/* =========================
+                        Summary
+                    ========================= */}
+
+                    <div className="report-summary">
+
+                        <div className="summary-card">
+
+                            <div className="summary-label">
+                                จำนวนรายการ
                             </div>
 
-                            <div className="summary-unit"> รายการ </div>
+                            <div className="summary-value">
+
+                                {Number(
+                                    report.summary.total_items
+                                ).toLocaleString("th-TH")}
+
+                            </div>
+
+                            <div className="summary-unit">
+                                รายการ
+                            </div>
+
                         </div>
+
 
                         <div className="summary-card total-cost-card">
-                            <div className="summary-label"> ค่าใช้จ่ายรวม </div>
 
-                            <div className="summary-value">
-                                {formatMoney(report.summary.total_cost)}
+                            <div className="summary-label">
+                                ค่าใช้จ่ายรวม
                             </div>
 
-                            <div className="summary-unit"> บาท </div>
+                            <div className="summary-value">
+
+                                {formatMoney(
+                                    report.summary.total_cost
+                                )}
+
+                            </div>
+
+                            <div className="summary-unit">
+                                บาท
+                            </div>
 
                         </div>
+
                     </div>
+
 
                     {/* =========================
                         Report Period
                     ========================= */}
+
                     <div className="report-period">
 
                         รายงานระหว่างวันที่{" "}
+
                         <strong>
                             {formatDateOnly(report.start_date)}
                         </strong>
@@ -150,99 +190,171 @@ function Reports() {
                         </strong>
 
                     </div>
+
+
                     {/* =========================
                         PDF
                     ========================= */}
-                    {report && (
-                        <PDFDownloadLink
-                            document={<RepairReportPDF report={report} />}
-                            fileName={`repair-report-${report.start_date}-${report.end_date}.pdf`}
-                            className="export-pdf-btn"
-                        >
-                            Export PDF
-                        </PDFDownloadLink>
-                    )}
+
+                    <PDFDownloadLink
+                        document={<RepairReportPDF report={report} />}
+                        fileName={`repair-report-${report.start_date}-${report.end_date}.pdf`}
+                        className="export-pdf-btn"
+                    >
+                       Export PDF
+                    </PDFDownloadLink>
+
+
                     {/* =========================
                         Table
                     ========================= */}
 
                     <div className="report-table-container">
+
                         <table className="report-table">
+
                             <thead>
+
                                 <tr>
-                                    <th> เลขงาน </th>
-                                    <th> วันที่แจ้ง </th>
-                                    <th> ห้อง </th>
-                                    <th> รายการซ่อม </th>
-                                    <th> ประเภท </th>
-                                    <th> ช่าง </th>
-                                    <th> รายละเอียด </th>
-                                    <th> ค่าใช้จ่าย </th>
+
+                                    <th>
+                                        วันที่
+                                    </th>
+
+                                    <th>
+                                        ห้อง
+                                    </th>
+
+                                    <th>
+                                        เลขงาน
+                                    </th>
+
+                                    <th>
+                                        ประเภท
+                                    </th>
+
+                                    <th>
+                                        รายการซ่อม
+                                    </th>
+
+                                    <th>
+                                        จำนวนเงิน
+                                    </th>
+
                                 </tr>
+
                             </thead>
+
+
                             <tbody>
+
                                 {report.data.length === 0 ? (
+
                                     <tr>
-                                        <td colSpan="8" className="no-data">
+
+                                        <td
+                                            colSpan="6"
+                                            className="no-data"
+                                        >
                                             ไม่พบข้อมูลในช่วงวันที่เลือก
                                         </td>
+
                                     </tr>
+
                                 ) : (
+
                                     report.data.map((item) => (
-                                        <tr key={item.ticket_id}>
 
-                                            {/* เลขงาน */}
+                                        <tr
+                                            key={item.ticket_id}
+                                        >
+
+                                            {/* วันที่ */}
+
                                             <td>
-                                                <strong>
-                                                    {formatTicketNumber(item.ticket_id)}
-                                                </strong>
+                                                {formatDateOnly(
+                                                    item.created_at
+                                                )}
                                             </td>
 
-                                            {/* วันที่แจ้ง */}
-                                            <td>
-                                                {formatDateOnly(item.created_at)}
-                                            </td>
 
                                             {/* ห้อง */}
+
                                             <td>
+
                                                 <span className="room-badge">
+
                                                     {item.room_number}
+
                                                 </span>
+
                                             </td>
 
-                                            {/* รายการซ่อม */}
-                                            <td> {item.title} </td>
+
+                                            {/* เลขงาน */}
+
+                                            <td>
+
+                                                <strong>
+                                                    {formatTicketNumber(
+                                                        item.ticket_id
+                                                    )}
+                                                </strong>
+
+                                            </td>
+
 
                                             {/* ประเภท */}
+
                                             <td>
+
                                                 <span className="category-badge">
-                                                    {checkCategory(item.category)}
+
+                                                    {checkCategory(
+                                                        item.category
+                                                    )}
+
                                                 </span>
+
                                             </td>
 
-                                            {/* ช่าง */}
+
+                                            {/* รายการซ่อม */}
+
                                             <td>
-                                                {item.technician_name || "-"}
+                                                {item.title}
                                             </td>
 
-                                            {/* รายละเอียด */}
-                                            <td className="reason-cell">
-                                                {item.reason || "-"}
-                                            </td>
 
-                                            {/* ค่าใช้จ่าย */}
+                                            {/* จำนวนเงิน */}
+
                                             <td className="cost-cell">
-                                                {formatMoney(item.total_cost)}{" "}บาท
+
+                                                {formatMoney(
+                                                    item.total_cost
+                                                )}{" "}
+                                                บาท
+
                                             </td>
+
                                         </tr>
+
                                     ))
+
                                 )}
+
                             </tbody>
+
                         </table>
+
                     </div>
+
                 </>
+
             )}
+
         </div>
+
     );
 }
 

@@ -24,7 +24,7 @@ exports.getRepairExpenseReport = async (startDate, endDate) => {
     WHERE t.status = 'completed'
       AND DATE(t.created_at) BETWEEN ? AND ?
 
-    ORDER BY t.created_at DESC
+    ORDER BY t.created_at ASC
     `,
     [startDate, endDate]
   );

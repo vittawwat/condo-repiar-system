@@ -6,6 +6,7 @@ import {
   formatDateTime,
   formatTicketNumber
 } from "../utils/ticketUtils";
+import DateTimePicker from "../components/DateTimePicker";
 
 function Notifications() {
   const [notifications, setNotifications] = useState([]);
@@ -319,10 +320,9 @@ function Notifications() {
                 กำหนดวันนัดใหม่
               </label>
 
-              <input
-                type="datetime-local"
+              <DateTimePicker
                 value={rejectDate}
-                onChange={(e) => setRejectDate(e.target.value)}
+                onChange={setRejectDate}
               />
 
             </div>

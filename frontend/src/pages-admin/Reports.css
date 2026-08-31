@@ -2,12 +2,13 @@
    Reports Page
 ========================= */
 
-.reports-page {
-    padding: 28px;
-    background: #f8fafc;
-    min-height: 100%;
+.reports-page { 
+    width: 100%; 
+    min-height: 100vh; 
+    box-sizing: border-box; 
+    padding: 28px; 
+    background: #f8fafc; 
 }
-
 
 /* =========================
    Header
@@ -351,7 +352,10 @@
 @media (max-width: 768px) {
 
     .reports-page {
-        padding: 18px;
+        width: 100%; 
+        min-height: 100vh; 
+        padding: 16px; 
+        box-sizing: border-box;
     }
 
     .report-filter {

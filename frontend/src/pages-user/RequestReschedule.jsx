@@ -2,15 +2,16 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./RequestReschedule.css";
+import DateTimePicker from "../components/DateTimePicker";
 
 export default function ReschedulePage() {
   const { ticket_id } = useParams();
+
   const [requestedDate, setRequestedDate] = useState("");
   const [reason, setReason] = useState("");
 
-
   console.log(requestedDate);
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -20,29 +21,33 @@ export default function ReschedulePage() {
     }
 
     try {
-
       await axios.post(
-        `/api/tickets/${ticket_id}/reschedule`, 
-      {
-        requested_date: requestedDate,
-        reason,
-      });
+        `/api/tickets/${ticket_id}/reschedule`,
+        {
+          requested_date: requestedDate,
+          reason,
+        }
+      );
 
       alert("ส่งคำขอเปลี่ยนวันนัดเรียบร้อย");
 
       clearForm();
-      // ถ้าใช้ LIFF
-      // liff.closeWindow();
 
     } catch (err) {
       console.error(err.message);
-      alert(err.response?.data?.message || "เกิดข้อผิดพลาด");
-  }};
+
+      alert(
+        err.response?.data?.message ||
+        "เกิดข้อผิดพลาด"
+      );
+    }
+  };
 
   const clearForm = () => {
-    setRequestedDate("")
-    setReason("")
-  }
+    setRequestedDate("");
+    setReason("");
+  };
+
   return (
     <div className="reschedule-page">
 
@@ -50,8 +55,10 @@ export default function ReschedulePage() {
 
         <div className="header">
           <h1>📅 RequestReschedule</h1>
+
           <p>
-            Please select a new appointment date and provide a reason for the reschedule request.
+            Please select a new appointment date and provide a reason
+            for the reschedule request.
           </p>
         </div>
 
@@ -60,12 +67,9 @@ export default function ReschedulePage() {
           <div className="form-group">
             <label>New Appointment Date</label>
 
-            <input
-              type="datetime-local"
+            <DateTimePicker
               value={requestedDate}
-              onChange={(e) => setRequestedDate(e.target.value)}
-
-              required
+              onChange={setRequestedDate}
             />
           </div>
 
@@ -80,7 +84,12 @@ export default function ReschedulePage() {
             />
           </div>
 
-          <button className="submit-btn"> Submit Request </button>
+          <button
+            type="submit"
+            className="submit-btn"
+          >
+            Submit Request
+          </button>
 
         </form>
 

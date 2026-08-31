@@ -20,9 +20,19 @@ export default function Login() {
 
                 console.log("LIFF INIT SUCCESS");
 
+                // สำคัญ: อ่าน query param "หลัง" liff.init() เสร็จเท่านั้น
+                // เพราะรอบแรกที่หน้าโหลด ค่า ?redirect=... จะถูกซ่อนอยู่ใน ?liff.state=...
+                // ต้องรอ LIFF SDK คืนค่า URL จริงก่อน ถึงจะอ่าน ?redirect ตรงๆ ได้
+                // อ่านจาก window.location.search สดๆ ตรงนี้ ไม่ใช่จาก hook ที่ผูกกับตอน mount
+                const redirectTo =
+                    new URLSearchParams(window.location.search).get("redirect") ||
+                    "/create-ticket";
+                // console.log("URLSearchParams",window.location.search,redirectTo);
+                
                 if (!liff.isLoggedIn()) {
 
-                    liff.login();
+                    // liff.login();
+                    liff.login({ redirectUri: window.location.href });
                     return;
                 }
 
@@ -52,9 +62,10 @@ export default function Login() {
                 if (!data.isRegistered) {
 
                     navigate("/register", {
-                        // ส่งค่า state ไปที่หน้า register
+                        // ส่งค่า state ไปที่หน้า register พร้อมปลายทางที่จะไปต่อหลังสมัครเสร็จ
                         state: {
                             profile,
+                            redirectTo,
                         },
                     });
 
@@ -74,8 +85,7 @@ export default function Login() {
                     const jwt_Token = loginResponse.data.access_token
                     localStorage.setItem("token", jwt_Token)
 
-                    console.log("GO DASHBOARD");
-                    navigate("/create-ticket");
+                    navigate(redirectTo);
                 }
 
             } catch (error) {

@@ -10,6 +10,7 @@ export default function RegisterPage() {
 
     // รับ profile จาก Login ส่งมาเป็นข้อมูล state
     const profile = location.state?.profile;
+    const redirectTo = location.state?.redirectTo || "/create-ticket";
     const line_token = localStorage.getItem("line_token");
 
     const [fullname, setFullname] = useState("");
@@ -51,7 +52,7 @@ export default function RegisterPage() {
 
             alert("Register Success");
 
-            navigate("/create-ticket");
+            navigate(redirectTo);
 
         } catch (error) {
 
