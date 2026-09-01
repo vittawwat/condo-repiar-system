@@ -5,11 +5,13 @@ import "../pages-admin/Dashboard.css"; // ใช้ CSS เดิมที่ม
 
 export default function DashboardLayout() {
     return (
-        <div className="dashboard-layout">
-            <Sidebar />
+         <div className="dashboard-layout">
+             <Sidebar />
             <>
-                <Outlet />
-            </>
-        </div>
-    );
+           <div className="dashboard-page-scroll">
+                 <Outlet />
+            </div>
+           </>
+         </div>
+     );
 }

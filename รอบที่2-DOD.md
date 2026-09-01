@@ -34,7 +34,6 @@
 
 ### 4. API นัดช่าง (In Progress)
 - [x] `PATCH /api/tickets/:id/assign` บันทึก technician_id + appointment_date
-- [ ] snapshot ชื่อและเบอร์ช่าง ณ เวลานั้นลงใน tickets table
 - [x] เปลี่ยน status → `in_progress` อัตโนมัติ
 - [x] ส่ง Flex Message หาลูกบ้าน แสดงชื่อช่าง เบอร์ วันนัด เวลานัด
 - [x] Flex Message มีปุ่ม"ขอเปลี่ยนวันนัด" และสามารถใช้งานได้จริง
@@ -48,7 +47,7 @@
 - [x] `POST /api/tickets/:id/reschedule` บันทึกคำขอเปลี่ยนวัน
 - [x] Dashboard แสดง badge "ขอเปลี่ยนวันนัด" ให้นิติเห็น
 - [x] นิติดูวันเดิม วันใหม่ หมายเหตุ แล้วกดอนุมัติได้
-- [ ] ระบบส่งวันนัดใหม่ให้ลูกบ้าน 
+- [x] ระบบส่งวันนัดใหม่ให้ลูกบ้าน 
 
 ### 6. Test + Doc
 - [ ] อัปเดต API doc ครบทุก endpoint ที่เพิ่มใน Sprint 2

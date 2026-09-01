@@ -13,7 +13,9 @@ body {
 
 .dashboard-layout {
   display: flex;
-  min-height: 100vh;
+  /* min-height: 100vh; */
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* ===== Sidebar ===== */
@@ -127,19 +129,25 @@ body {
   color: #aaa;
 }
 
+.dashboard-page-scroll {
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
+}
+
 /* ===== Main ===== */
 
 .main-content {
   flex: 1;
   padding: 24px;
-  overflow: hidden;
+  /* overflow: hidden; */
+  /* overflow-y: auto; */
 }
 
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 20px;
 }
 
 .page-header h1 {
@@ -238,8 +246,8 @@ body {
   border-radius: 14px;
   border: 1px solid #eee;
   overflow: hidden;
-  max-height: 500px;
-  overflow-y: auto;
+  /* max-height: 500px;
+  overflow-y: auto; */
 }
 
 .ticket-table {

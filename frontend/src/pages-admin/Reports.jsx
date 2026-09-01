@@ -12,6 +12,7 @@ import {
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import RepairReportPDF from "../components/RepairReportPDF";
 import DateDropdown from "../components/DateDropdown";
+import Pagination from "../components/Pagination";
 
 function Reports() {
 
@@ -19,6 +20,8 @@ function Reports() {
     const [endDate, setEndDate] = useState("");
 
     const [report, setReport] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const PAGE_SIZE = 10;
 
 
     // =========================
@@ -49,6 +52,7 @@ function Reports() {
             );
 
             setReport(response.data);
+            setCurrentPage(1);
 
         } catch (error) {
 
@@ -61,6 +65,13 @@ function Reports() {
         }
     };
     
+    const paginatedData = report
+        ? report.data.slice(
+            (currentPage - 1) * PAGE_SIZE,
+            currentPage * PAGE_SIZE
+        )
+        : [];
+
     return (
 
         <div className="reports-page">
@@ -263,7 +274,7 @@ function Reports() {
 
                                 ) : (
 
-                                    report.data.map((item) => (
+                                    paginatedData.map((item) => (
 
                                         <tr
                                             key={item.ticket_id}
@@ -346,6 +357,13 @@ function Reports() {
                             </tbody>
 
                         </table>
+
+                        <Pagination
+                            currentPage={currentPage}
+                            totalItems={report.data.length}
+                            pageSize={PAGE_SIZE}
+                            onPageChange={setCurrentPage}
+                        />
 
                     </div>
 

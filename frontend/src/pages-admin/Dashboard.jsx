@@ -3,6 +3,7 @@ import axios from "axios";
 import "./Dashboard.css";
 import TicketModalDetail from "../components/TicketModalDetail";
 import DateDropdown from '../components/DateDropdown';
+import Pagination from '../components/Pagination';
 import {
   checkCategory,
   checkStatus,
@@ -22,6 +23,8 @@ export default function Dashboard() {
   const [ticket_ById, setTicke_ById] = useState(null)
   const [showModal, setShowModal] = useState(false)
   const [activeFilter, setActiveFilter] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const PAGE_SIZE = 10;
 
   const getTickets = async () => {
     try {
@@ -41,6 +44,16 @@ export default function Dashboard() {
   useEffect(() => {
     getTickets();
   }, []);
+
+  // กลับไปหน้า 1 ทุกครั้งที่ข้อมูล tickets เปลี่ยน (เปลี่ยนฟิลเตอร์/ค้นหา)
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [tickets]);
+
+  const paginatedTickets = tickets.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE
+  );
 
   async function getTicketById(ticket_id) {
 
@@ -221,7 +234,7 @@ export default function Dashboard() {
             </thead>
 
             <tbody>
-              {tickets.map((ticket) => {
+              {paginatedTickets.map((ticket) => {
                 return (
                   <tr key={ticket.ticket_id}>
                     <td>{formatTicketNumber(ticket.ticket_id)}</td>
@@ -252,6 +265,13 @@ export default function Dashboard() {
               })}
             </tbody>
           </table>
+
+          <Pagination
+            currentPage={currentPage}
+            totalItems={tickets.length}
+            pageSize={PAGE_SIZE}
+            onPageChange={setCurrentPage}
+          />
 
         </div>
 

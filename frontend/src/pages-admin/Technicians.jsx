@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import TechnicianModalDetail from "../components/TechnicianModalDetail";
 import AddTechnicianModal from "../components/AddTechnicianModal";
+import Pagination from "../components/Pagination";
 import "./Technicians.css";
 import { checkCategory } from "../utils/ticketUtils";
 export default function Technicians() {
@@ -9,6 +10,8 @@ export default function Technicians() {
   const [selectedTech, setSelectedTech] = useState(null);
   const [showModalTech,setshowModalTech] = useState(false);
   const [showModalAddTech,setshowModalAddTech] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const PAGE_SIZE = 10;
 
   const fetchTechnicians = async () => {
     try {
@@ -29,6 +32,15 @@ export default function Technicians() {
    useEffect(() => {
     fetchTechnicians();
   }, []);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [technicians]);
+
+  const paginatedTechnicians = technicians.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE
+  );
 
   return (
     <div className="technicians-page">
@@ -58,7 +70,7 @@ export default function Technicians() {
           </thead>
 
           <tbody>
-            {technicians.map((tech) => (
+            {paginatedTechnicians.map((tech) => (
               <tr key={tech.technician_id}>
 
                 <td>{tech.firstname} {tech.lastname}</td>
@@ -84,6 +96,13 @@ export default function Technicians() {
           </tbody>
 
         </table>
+
+        <Pagination
+          currentPage={currentPage}
+          totalItems={technicians.length}
+          pageSize={PAGE_SIZE}
+          onPageChange={setCurrentPage}
+        />
 
       </div>
 

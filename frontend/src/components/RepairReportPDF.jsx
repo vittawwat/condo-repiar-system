@@ -238,15 +238,6 @@ const styles = StyleSheet.create({
 
 function RepairReportPDF({ report }) {
 
-     console.log("========== PDF DATA ==========");
-
-    report?.data?.forEach((item, index) => {
-        console.log("PDF ITEM", index);
-        console.log("ticket_id:", item.ticket_id);
-        console.log("title:", item.title);
-        console.log("title length:", item.title?.length);
-    });
-
     return (
 
         <Document>
@@ -336,9 +327,9 @@ function RepairReportPDF({ report }) {
                             ประเภท
                         </Text>
 
-                        {/* <Text style={[styles.cell, styles.titleCell, styles.headerCell]}>
+                        <Text style={[styles.cell, styles.titleCell, styles.headerCell]}>
                             รายการซ่อม
-                        </Text> */}
+                        </Text>
 
                         <Text style={[styles.cell, styles.cost, styles.headerCell]}>
                             จำนวนเงิน{" "}
@@ -385,10 +376,10 @@ function RepairReportPDF({ report }) {
                                     {checkCategory(item.category)}
                                 </Text>
 
-                                {/* <Text style={[styles.cell, styles.titleCell]}>
+                                <Text style={[styles.cell, styles.titleCell]}>
                                     {item.title || "-"}
                                     {"  "}
-                                </Text> */}
+                                </Text>
 
                                 <Text style={[styles.cell, styles.cost]}>
                                     {formatMoney(item.total_cost || 0)} บาท

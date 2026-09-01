@@ -26,7 +26,7 @@ export function nextStatus(status) {
     pending: "รับเรื่อง",
     acknowledged: "นัดหมายช่าง",
     in_progress: "ปิดงาน",
-    completed: "เสร็จสิ้น",
+    completed: "ดูรายระเอียด",
     cancelled: "ดูรายระเอียด"
   }
 
